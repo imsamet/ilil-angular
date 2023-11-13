@@ -1,0 +1,80 @@
+<ng-container *ngIf="mode == 'list'">
+     <div class="ml-auto w-36">
+          <button class="mb-4 w-full" mat-flat-button [color]="'primary'" (click)="mode = 'add'" *transloco="let t">{{ t("addNewCv") }}</button>
+     </div>
+     <ul role="list" class="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl" *transloco="let t">
+          <ng-container *ngIf="cvs.length > 0; else noData">
+               <ng-container *ngFor="let cv of cvs">
+                    <li class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6 cursor-pointer" (click)="sendData(cv)">
+                         <div class="flex min-w-0 gap-x-4">
+                              <img
+                                   *ngIf="cv.image"
+                                   class="h-12 w-12 flex-none rounded-full bg-gray-50 object-cover"
+                                   src="{{ cv.image.url }}"
+                                   alt="" />
+                              <svg class="text-gray-300" *ngIf="!cv.image" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                   <path
+                                        fill-rule="evenodd"
+                                        d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                        clip-rule="evenodd" />
+                              </svg>
+                              <div class="min-w-0 flex-auto">
+                                   <p class="text-sm font-semibold leading-6 text-gray-900">
+                                        <a routerlink="/">
+                                             <span class="absolute inset-x-0 -top-px bottom-0"></span>
+                                             {{ cv.user.name }}
+                                        </a>
+                                   </p>
+                                   <p class="mt-1 flex text-xs leading-5 text-gray-500">
+                                        <a href="mailto:{{ cv.user.username }}" class="relative hover:underline">{{ cv.user.username }}</a>
+                                   </p>
+                              </div>
+                         </div>
+                         <div class="flex shrink-0 items-center gap-x-4">
+                              <div class="hidden sm:flex sm:flex-col sm:items-end">
+                                   <p class="text-sm leading-6 text-gray-900">{{ cv.title[activeLang] }}</p>
+                                   <p class="mt-1 text-xs leading-5 text-gray-500">{{ cv.salaryType }}</p>
+                              </div>
+
+                              <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                   <path
+                                        fill-rule="evenodd"
+                                        d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                                        clip-rule="evenodd" />
+                              </svg>
+
+                              <ng-container *ngIf="cv.privacy == 'public'">
+                                   <mat-icon svgIcon="mat_solid:public"></mat-icon>
+                              </ng-container>
+                              <ng-container *ngIf="cv.privacy == 'only-me'">
+                                   <mat-icon svgIcon="mat_solid:lock"></mat-icon>
+                              </ng-container>
+                         </div>
+                    </li>
+               </ng-container>
+          </ng-container>
+          <ng-template #noData>
+               <div class="text-center border border-dashed border-gray-500 p-6 rounded-xl">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                         <path
+                              vector-effect="non-scaling-stroke"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                    </svg>
+                    <h3 class="mt-2 text-sm font-semibold text-gray-900">{{ t("noAddedCvs") }}</h3>
+                    <p class="mt-1 text-sm text-gray-500">{{ t("cvsGetStarted") }}</p>
+                    <div class="mt-6">
+                         <button type="button" [color]="'primary'" (click)="mode = 'add'" mat-flat-button>
+                              {{ t("newCv") }} <mat-icon>add</mat-icon>
+                         </button>
+                    </div>
+               </div>
+          </ng-template>
+     </ul>
+</ng-container>
+
+<ng-container *ngIf="mode == 'add' || mode == 'edit'">
+     <app-cvs-single-page class="w-full" [data]="singleCVData"></app-cvs-single-page>
+</ng-container>

@@ -1,0 +1,144 @@
+<div class="relative isolate h-96 bg-black overflow-hidden">
+     <div
+          class="mx-auto max-w-7xl px-6 text-center justify-items-center h-full grid object-center content-center justify-center items-center lg:px-8">
+          <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl" *ngIf="job">
+               {{ job.title[activeLang] | titlecase }}
+               <span class="text-green-600"> . </span>
+          </h1>
+          <p class="mt-4 text-base z-50 text-white/70 sm:mt-6">
+               {{ job.shortDescription[activeLang] }}
+          </p>
+     </div>
+</div>
+<div class="bg-white py-12 sm:py-16" *transloco="let t">
+     <div class="mx-auto max-w-7xl px-6 lg:px-8">
+          <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+               <div class="flex min-w-0 gap-x-4 items-center px-4 py-6 sm:px-6">
+                    <img *ngIf="job.image" class="h-12 w-12 flex-none rounded-full bg-gray-50 object-cover" [src]="job.image.url" alt="" />
+                    <svg
+                         *ngIf="!job.image"
+                         xmlns="http://www.w3.org/2000/svg"
+                         class="h-10 w-10"
+                         width="100%"
+                         viewBox="0 0 512 512"
+                         style="fill: #000 !important">
+                         <path
+                              d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" />
+                    </svg>
+                    <div class="min-w-0 flex-auto">
+                         <h3 class="text-base font-semibold leading-7 text-gray-900">{{ job.title[activeLang] | titlecase }}</h3>
+                         <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{{ t("jobInformation") }}</p>
+                    </div>
+                    <p
+                         class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">
+                         {{ job.category.title[activeLang] | titlecase }}
+                    </p>
+                    <ng-container *ngIf="user">
+                         <button class="w-1/6 ml-auto block" mat-flat-button [color]="'primary'" (click)="openFormDialog()">{{ t("apply") }}</button>
+                    </ng-container>
+                    <ng-container *ngIf="!user">
+                         <button
+                              class="w-1/6 ml-auto block"
+                              mat-flat-button
+                              [color]="'primary'"
+                              routerLink="/login"
+                              [queryParams]="{ redirectURL: '/jobs/' + job._id }">
+                              {{ t("loginToApply") }}
+                         </button>
+                    </ng-container>
+               </div>
+
+               <div class="border-t border-gray-100">
+                    <dl class="divide-y divide-gray-100">
+                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt class="text-sm font-medium text-gray-900">{{ t("companyName") }}</dt>
+                              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                   {{ job.companyName | titlecase }}
+                              </dd>
+                         </div>
+                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt class="text-sm font-medium text-gray-900">{{ t("employmentType") }}</dt>
+                              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                   [
+                                   <ng-container *ngFor="let type of job.types; let i = index">
+                                        {{ type }}
+                                        <ng-container *ngIf="i + 1 != job.types.length"> - </ng-container>
+                                   </ng-container>
+                                   ]
+                              </dd>
+                         </div>
+                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt class="text-sm font-medium text-gray-900">{{ t("salaryType") }}</dt>
+                              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                   {{ job.salaryType | titlecase }}
+                              </dd>
+                         </div>
+                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt class="text-sm font-medium text-gray-900">{{ t("salary") }}</dt>
+                              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                   {{ job.salary | currency : "$" }}
+                              </dd>
+                         </div>
+                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt class="text-sm font-medium text-gray-900">{{ t("salary") }}</dt>
+                              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                   {{ job.description[activeLang] }}
+                              </dd>
+                         </div>
+                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt class="text-sm font-medium leading-6 text-gray-900">{{ t("attachments") }}</dt>
+                              <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                   <ng-container *ngIf="job.files.length > 0; else noAttachments">
+                                        <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
+                                             <li
+                                                  class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6"
+                                                  *ngFor="let file of job.files">
+                                                  <div class="flex w-0 flex-1 items-center">
+                                                       <svg
+                                                            class="h-5 w-5 flex-shrink-0 text-gray-400"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                            aria-hidden="true">
+                                                            <path
+                                                                 fill-rule="evenodd"
+                                                                 d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z"
+                                                                 clip-rule="evenodd" />
+                                                       </svg>
+                                                       <div class="ml-4 flex min-w-0 flex-1 gap-2">
+                                                            <span class="truncate font-medium">{{ file.original_name }}</span>
+                                                       </div>
+                                                  </div>
+                                                  <div class="ml-4 flex-shrink-0">
+                                                       <a
+                                                            href="{{ file.url }}"
+                                                            target="_blank"
+                                                            class="font-medium text-indigo-600 hover:text-indigo-500"
+                                                            >Link preview</a
+                                                       >
+                                                  </div>
+                                             </li>
+                                        </ul>
+                                   </ng-container>
+                                   <ng-template #noAttachments> {{ t("noFileAttached") }} </ng-template>
+                              </dd>
+                         </div>
+                    </dl>
+               </div>
+          </div>
+     </div>
+     <div class="mx-auto max-w-7xl px-6 lg:px-8 my-10">
+          <ng-container *ngIf="user">
+               <button class="w-1/6 ml-auto block" mat-flat-button [color]="'primary'" (click)="openFormDialog()">{{ t("apply") }}</button>
+          </ng-container>
+          <ng-container *ngIf="!user">
+               <button
+                    class="w-1/6 ml-auto block"
+                    mat-flat-button
+                    [color]="'primary'"
+                    routerLink="/login"
+                    [queryParams]="{ redirectURL: '/jobs/' + job._id }">
+                    {{ t("loginToApply") }}
+               </button>
+          </ng-container>
+     </div>
+</div>

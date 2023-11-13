@@ -1,0 +1,129 @@
+<mat-drawer-container class="example-container" [hasBackdrop]="true" autosize *transloco="let t">
+     <mat-drawer #drawer [mode]="'over'" class="w-72">
+          <div class="border-t border-gray-200 pb-4 pt-4">
+               <fieldset>
+                    <span class="px-4 text-lg font-medium text-gray-900 mb-10"> {{ t("category") }}</span>
+                    <div class="px-4 pb-2 pt-4">
+                         <div class="space-y-6 pt-6">
+                              <div class="flex flex-col items-start">
+                                   <ng-container *ngFor="let category of projectCategories">
+                                        <mat-checkbox [color]="'primary'" [(ngModel)]="category.selected" (ngModelChange)="updateAllComplete()">
+                                             {{ category.title[activeLang] }}
+                                        </mat-checkbox>
+                                   </ng-container>
+                              </div>
+                         </div>
+                    </div>
+               </fieldset>
+          </div>
+     </mat-drawer>
+     <mat-drawer-content>
+          <div class="relative isolate h-96 bg-black overflow-hidden">
+               <div
+                    class="mx-auto max-w-7xl px-6 text-center justify-items-center h-full grid object-center content-center justify-center items-center lg:px-8">
+                    <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl" *ngIf="activeLang == 'en'">
+                         {{ t("listOf") }} <span class="text-zinc-400 hover:text-green-600 cursor-cell duration-700"> {{ t("projects") }}</span
+                         ><span class="text-green-600"> . </span>
+                    </h1>
+                    <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl" *ngIf="activeLang == 'tr'">
+                         <span class="text-zinc-400 hover:text-green-600 cursor-cell duration-700"> {{ t("projects") }}</span>
+                         {{ t("listOf") }}<span class="text-green-600"> . </span>
+                    </h1>
+               </div>
+          </div>
+          <div class="bg-white">
+               <div>
+                    <main class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                         <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+                              <aside>
+                                   <h2 class="sr-only">{{ t("filters") }}</h2>
+                                   <button type="button" class="inline-flex items-center lg:hidden">
+                                        <span class="text-sm font-medium text-gray-700" (click)="drawer.toggle()">Filters {{ t("category") }}</span>
+                                        <svg
+                                             class="ml-1 h-5 w-5 flex-shrink-0 text-gray-400"
+                                             viewBox="0 0 20 20"
+                                             fill="currentColor"
+                                             aria-hidden="true">
+                                             <path
+                                                  d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                        </svg>
+                                   </button>
+                                   <button mat-button color="primary" class="text-sm ml-2 lg:hidden" (click)="clearFilters()">
+                                        Clear {{ selectedCategoryIds.length == 0 ? "" : selectedCategoryIds.length }} Filters
+                                   </button>
+                                   <div class="hidden lg:block">
+                                        <div class="space-y-10 divide-y divide-gray-200">
+                                             <fieldset>
+                                                  <legend class="block text-sm font-medium text-gray-900">
+                                                       {{ t("filterByCategory") }}
+                                                       <button mat-button color="primary" class="text-sm ml-2" (click)="clearFilters()">
+                                                            Clear {{ selectedCategoryIds.length == 0 ? "" : selectedCategoryIds.length }} Filters
+                                                       </button>
+                                                  </legend>
+                                                  <div class="space-y-3 pt-6">
+                                                       <div class="flex flex-col items-start">
+                                                            <ng-container *ngFor="let category of projectCategories">
+                                                                 <mat-checkbox
+                                                                      [color]="'primary'"
+                                                                      [(ngModel)]="category.selected"
+                                                                      (ngModelChange)="updateAllComplete()">
+                                                                      <span style="font-size: 11px !important">
+                                                                           {{ category.title[activeLang] }}
+                                                                           <span style="color: #00000054 !important">
+                                                                                ({{ getCount(category._id) }})
+                                                                           </span>
+                                                                      </span>
+                                                                 </mat-checkbox>
+                                                            </ng-container>
+                                                       </div>
+                                                  </div>
+                                             </fieldset>
+                                        </div>
+                                   </div>
+                              </aside>
+                              <div class="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
+                                   <ng-container *ngIf="filteredProjects.length > 0; else noData">
+                                        <div class="mx-auto">
+                                             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
+                                                  <ng-container *ngFor="let project of filteredProjects">
+                                                       <div
+                                                            class="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
+                                                            <div
+                                                                 class="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 h-64"
+                                                                 *ngIf="project.image">
+                                                                 <img
+                                                                      [src]="project.image.url"
+                                                                      class="h-full w-full object-cover object-center sm:h-full sm:w-full" />
+                                                            </div>
+                                                            <div class="flex flex-1 flex-col space-y-2 p-4">
+                                                                 <h3 class="text-sm font-medium text-gray-900">
+                                                                      <a routerLink="/{{ 'projects/' + project._id }}">
+                                                                           <span aria-hidden="true" class="absolute inset-0"></span>
+                                                                           {{ project.title[activeLang] }}
+                                                                      </a>
+                                                                 </h3>
+                                                                 <p class="text-sm text-gray-500">
+                                                                      {{ project.shortDescription[activeLang] }}
+                                                                 </p>
+                                                                 <div class="flex flex-1 flex-col justify-end">
+                                                                      <p class="text-sm italic text-gray-500">
+                                                                           {{ project.category.title[activeLang] }}
+                                                                      </p>
+                                                                      <!-- <p class="text-base font-medium text-gray-900">{{ project.user.name }} - {{ project.user.username }}</p> -->
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                  </ng-container>
+                                             </div>
+                                        </div>
+                                   </ng-container>
+                                   <ng-template #noData>
+                                        <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">{{ t("noResultsFound") }}</div>
+                                   </ng-template>
+                              </div>
+                         </div>
+                    </main>
+               </div>
+          </div>
+     </mat-drawer-content>
+</mat-drawer-container>

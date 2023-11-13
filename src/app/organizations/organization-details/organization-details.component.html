@@ -1,0 +1,74 @@
+<div class="relative isolate h-96 bg-black overflow-hidden">
+     <div
+          class="mx-auto max-w-7xl px-6 text-center justify-items-center h-full grid object-center content-center justify-center items-center lg:px-8">
+          <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl" *ngIf="organization">
+               {{ organization.title[activeLang] | titlecase }}
+               <span class="text-green-600"> . </span>
+          </h1>
+          <p class="mt-4 text-base z-50 text-white/70 sm:mt-6">
+               {{ organization.shortDescription[activeLang] }}
+          </p>
+     </div>
+</div>
+<div class="bg-white py-12 sm:py-16" *transloco="let t">
+     <div class="mx-auto max-w-7xl px-6 lg:px-8">
+          <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+               <div class="flex min-w-0 gap-x-4 items-center px-4 py-6 sm:px-6">
+                    <img
+                         *ngIf="organization.image"
+                         class="h-12 w-12 flex-none rounded-full bg-gray-50 object-cover"
+                         [src]="organization.image.url"
+                         alt="" />
+                    <ng-container *ngIf="!organization.image">
+                         <div
+                              class="flex items-center justify-center w-10 h-10 rounded-full text-lg uppercase bg-green-600 text-white dark:bg-gray-700 dark:text-gray-200">
+                              {{ organization.title[activeLang].charAt(0) }}
+                         </div>
+                    </ng-container>
+                    <div class="min-w-0 flex-auto">
+                         <h3 class="text-base font-semibold leading-7 text-gray-900">{{ organization.title[activeLang] | titlecase }}</h3>
+                         <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{{ t("organizationInformation") }}</p>
+                    </div>
+                    <p
+                         class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">
+                         {{ organization.category.title[activeLang] | titlecase }}
+                    </p>
+               </div>
+
+               <div class="border-t border-gray-100">
+                    <dl class="divide-y divide-gray-100">
+                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt class="text-sm font-medium text-gray-900">{{ t("links") }}</dt>
+                              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                   <ng-container *ngIf="organization.links.length > 0; else noLinks">
+                                        <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
+                                             <li
+                                                  class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6"
+                                                  *ngFor="let link of organization.links">
+                                                  <div class="flex w-0 flex-1 items-center">
+                                                       <mat-icon svgIcon="mat_outline:link"></mat-icon>
+                                                       <div class="ml-4 flex min-w-0 flex-1 gap-2">
+                                                            <span class="truncate font-medium">
+                                                                 <a class="font-medium text-indigo-600 hover:text-indigo-500" [href]="[link]">
+                                                                      {{ link }}
+                                                                 </a>
+                                                            </span>
+                                                       </div>
+                                                  </div>
+                                             </li>
+                                        </ul>
+                                   </ng-container>
+                                   <ng-template #noLinks> {{ t("noAddedLinks") }}</ng-template>
+                              </dd>
+                         </div>
+                         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt class="text-sm font-medium text-gray-900">{{ t("description") }}</dt>
+                              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                   {{ organization.description[activeLang] }}
+                              </dd>
+                         </div>
+                    </dl>
+               </div>
+          </div>
+     </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="flex flex-col flex-auto md:w-160 md:min-w-160 max-h-160 -m-6 overflow-y-auto">
+     <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+          <div class="text-lg font-medium" *transloco="let t">{{ t("otherLanguages") }}</div>
+          <button mat-icon-button (click)="matDialogRef.close()" [tabIndex]="-1">
+               <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+          </button>
+     </div>
+     <form
+          class="flex flex-col flex-auto items-start w-full p-6 sm:p-8 space-y-6 overflow-y-auto"
+          [formGroup]="dialogForm"
+          autocomplete="off"
+          (ngSubmit)="onSubmit()">
+          <mat-form-field class="w-full" [subscriptSizing]="'dynamic'" *ngFor="let lang of availableLangs">
+               <mat-label>{{ lang.label | uppercase }}</mat-label>
+               <input matInput [formControl]="dialogForm.get(lang.id)" type="text" spellcheck="false" placeholder="{{ lang.label | uppercase }}" />
+          </mat-form-field>
+          <button class="arabic" mat-flat-button [color]="'primary'" [disabled]="dialogForm.invalid" type="submit" *transloco="let t">
+               {{ t("save") }}
+          </button>
+     </form>
+</div>

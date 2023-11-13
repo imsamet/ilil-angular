@@ -1,0 +1,142 @@
+<form
+     class="flex flex-col flex-auto items-start w-full p-6 sm:p-8 space-y-6 overflow-y-auto"
+     *ngIf="jobForm"
+     [formGroup]="jobForm"
+     novalidate
+     (ngSubmit)="onSubmit()">
+     <div class="w-full" *transloco="let t">
+          <div class="border-b border-gray-900/10 pb-12">
+               <div class="grid gap-x-6 gap-y-8 sm:grid-cols-3">
+                    <div class="col-span-1">
+                         <label class="block text-md font-bold leading-6 text-gray-900">{{ t("photo") }}</label>
+                         <app-file-uploader
+                              (UploadedFile)="uploadImage($event)"
+                              (_deleteFile)="deleteImage($event)"
+                              [route]="'cvs'"
+                              [fileFilter]="'image/*'"
+                              [refId]="'image'"
+                              [image]="image"></app-file-uploader>
+                    </div>
+                    <div class="col-span-1">
+                         <label class="block text-md font-bold leading-6 text-gray-900">{{ t("coverImage") }}</label>
+                         <app-file-uploader
+                              (UploadedFile)="uploadCoverImage($event)"
+                              (_deleteFile)="deleteCoverImage($event)"
+                              [route]="'cvs'"
+                              [fileFilter]="'image/*'"
+                              [refId]="'coverImage'"
+                              [image]="coverImage"></app-file-uploader>
+                    </div>
+                    <div class="col-span-1">
+                         <label class="block text-md font-bold leading-6 text-gray-900">{{ t("video") }}</label>
+                         <app-video-uploader
+                              (UploadedFile)="uploadVideo($event)"
+                              (_deleteFile)="deleteVideo($event)"
+                              [route]="'cvs'"
+                              [refId]="'video'"
+                              [video]="video"></app-video-uploader>
+                    </div>
+               </div>
+          </div>
+          <div class="mt-10 grid grid-cols-1 gap-x-2 gap-y-8 sm:grid-cols-6">
+               <mat-form-field class="sm:col-span-3">
+                    <mat-label>{{ t("title") }}</mat-label>
+                    <input matInput [formControl]="jobForm.get('title.' + activeLang)" placeholder="{{ 'title' | transloco }}" [spellcheck]="false" />
+                    <mat-hint align="end">
+                         <a class="text-primary hover:cursor-pointer" (click)="openAddLang('title')"> {{ t("otherLanguages") }} </a>
+                    </mat-hint>
+               </mat-form-field>
+               <mat-form-field class="sm:col-span-3">
+                    <mat-label>{{ t("shortDescription") }}</mat-label>
+                    <input
+                         matInput
+                         [formControl]="jobForm.get('shortDescription.' + activeLang)"
+                         placeholder="{{ 'shortDescription' | transloco }}"
+                         [spellcheck]="false" />
+                    <mat-hint align="end">
+                         <a class="text-primary hover:cursor-pointer" (click)="openAddLang('shortDescription')"> {{ t("otherLanguages") }} </a>
+                    </mat-hint>
+               </mat-form-field>
+               <mat-form-field class="sm:col-span-2">
+                    <mat-label>{{ t("companyName") }}</mat-label>
+                    <input matInput type="text" [formControlName]="'companyName'" [placeholder]="'Company Name'" [spellcheck]="false" />
+               </mat-form-field>
+               <mat-form-field class="sm:col-span-2">
+                    <mat-label>{{ t("location") }}</mat-label>
+                    <input
+                         type="text"
+                         matInput
+                         [formControlName]="'location'"
+                         (focus)="onFocus('location', locations, 'name')"
+                         [matAutocomplete]="auto"
+                         required />
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                         <mat-option *ngIf="(filteredOptions | async)?.length <= 0"> {{ t("noResultsFound") }} </mat-option>
+                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option._id">
+                              {{ option.name }}
+                         </mat-option>
+                    </mat-autocomplete>
+               </mat-form-field>
+
+               <mat-form-field class="sm:col-span-2">
+                    <mat-label> {{ t("category") }}</mat-label>
+                    <mat-select [formControlName]="'category'">
+                         <ng-container *ngFor="let category of categories">
+                              <mat-option [value]="category._id">{{ category.title[activeLang] }} </mat-option>
+                         </ng-container>
+                    </mat-select>
+               </mat-form-field>
+               <mat-form-field class="sm:col-span-2">
+                    <mat-label> {{ t("type") }} </mat-label>
+                    <mat-select [formControlName]="'types'" #roleSelect="matSelect" multiple>
+                         <ng-container *ngFor="let type of types">
+                              <mat-option [value]="type.name">
+                                   <div>{{ type.name }}</div>
+                              </mat-option>
+                         </ng-container>
+                    </mat-select>
+               </mat-form-field>
+
+               <mat-form-field class="sm:col-span-2">
+                    <mat-label>{{ t("salaryType") }}</mat-label>
+                    <mat-select [formControlName]="'salaryType'">
+                         <mat-option value="hourly"> {{ t("hourly") }} </mat-option>
+                         <mat-option value="weekly"> {{ t("weekly") }} </mat-option>
+                         <mat-option value="monthly"> {{ t("monthly") }} </mat-option>
+                         <mat-option value="yearly"> {{ t("yearly") }} </mat-option>
+                    </mat-select>
+               </mat-form-field>
+               <mat-form-field class="sm:col-span-2">
+                    <mat-label> {{ t("salary") }} </mat-label>
+                    <input matInput type="number" [formControlName]="'salary'" min="0" [placeholder]="'Salary'" [spellcheck]="false" />
+               </mat-form-field>
+          </div>
+          <div class="mt-16 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+               <mat-form-field class="col-span-3" [subscriptSizing]="'dynamic'">
+                    <mat-label> {{ t("description") }}</mat-label>
+                    <textarea
+                         matInput
+                         [formControl]="jobForm.get('description.' + activeLang)"
+                         placeholder="{{ 'description' | transloco }}"
+                         [rows]="9"></textarea>
+                    <mat-hint align="end">
+                         <a class="text-primary hover:cursor-pointer" (click)="openAddLang('description')"> {{ t("otherLanguages") }} </a>
+                    </mat-hint>
+               </mat-form-field>
+               <div class="col-span-3">
+                    <label class="block text-md font-medium"> {{ t("attachFiles") }}</label>
+                    <app-files-uploader
+                         (UploadedFiles)="getDocuments($event)"
+                         (_deleteFile)="deleteDocument($event)"
+                         [route]="'projects'"
+                         [images]="files"></app-files-uploader>
+               </div>
+          </div>
+     </div>
+
+     <div class="flex w-full items-center px-10 border-t py-2 pt-6 mt-10">
+          <button class="ml-auto" mat-flat-button [color]="'primary'" type="submit" [disabled]="jobForm.invalid">
+               {{ data ? "Update job info" : "Post Job" }}
+          </button>
+     </div>
+</form>

@@ -1,0 +1,217 @@
+<ng-container *ngIf="tenderMode == 'list'">
+     <ng-container *ngIf="tenders.length > 0; else noData">
+          <div class="ml-auto w-36" *transloco="let t">
+               <button class="mb-4 w-full" mat-flat-button [color]="'primary'" (click)="tenderMode = 'add'">Create tender</button>
+          </div>
+          <ul role="list" class="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl" *transloco="let t">
+               <li
+                    *ngFor="let tender of tenders"
+                    class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6 cursor-pointer"
+                    (click)="sendData(tender)">
+                    <div class="flex min-w-0 gap-x-4">
+                         <img *ngIf="tender.image" class="h-12 w-12 flex-none rounded-full bg-gray-50" src="{{ tender.image.url }}" alt="" />
+                         <div class="min-w-0 flex-auto">
+                              <p class="text-sm font-semibold leading-6 text-gray-900">
+                                   <a>
+                                        <span class="absolute inset-x-0 -top-px bottom-0"></span>
+                                        {{ tender.title[activeLang] }}
+                                   </a>
+                              </p>
+                              <p class="mt-1 flex text-xs leading-5 text-gray-500">
+                                   {{ tender.shortDescription[activeLang] }}
+                              </p>
+                         </div>
+                    </div>
+                    <div class="flex shrink-0 items-center gap-x-4">
+                         <div class="hidden sm:flex sm:flex-col sm:items-end">
+                              <p class="text-sm leading-6 text-gray-900">{{ tender.category.title[activeLang] }}</p>
+                              <p class="mt-1 text-xs leading-5 text-gray-500">{{ t("createdAt") }}: {{ tender.createdAt | date }}</p>
+                         </div>
+                         <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                              <path
+                                   fill-rule="evenodd"
+                                   d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                                   clip-rule="evenodd" />
+                         </svg>
+                    </div>
+               </li>
+          </ul>
+     </ng-container>
+     <ng-template #noData>
+          <div class="text-center border border-dashed border-gray-500 p-6 rounded-xl">
+               <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path
+                         vector-effect="non-scaling-stroke"
+                         stroke-linecap="round"
+                         stroke-linejoin="round"
+                         stroke-width="2"
+                         d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+               </svg>
+               <h3 class="mt-2 text-sm font-semibold text-gray-900">No tenders</h3>
+               <p *transloco="let t" class="mt-1 text-sm text-gray-500">{{ t("tenderGetStarted") }}</p>
+               <div class="mt-6">
+                    <button type="button" [color]="'primary'" (click)="tenderMode = 'add'" mat-flat-button>
+                         New Tender <mat-icon>add</mat-icon>
+                    </button>
+               </div>
+          </div>
+     </ng-template>
+</ng-container>
+<ng-container *ngIf="tenderMode == 'add' || tenderMode == 'edit'">
+     <form [formGroup]="tenderForm" class="space-y-4 mt-4" #signInNgForm="ngForm" *transloco="let t">
+          <div class="border-b border-gray-900/10 pb-12">
+               <div class="grid gap-x-6 gap-y-8 sm:grid-cols-3">
+                    <div class="col-span-1">
+                         <label class="block text-md font-bold leading-6 text-gray-900">{{ t("photo") }}</label>
+                         <app-file-uploader
+                              (UploadedFile)="uploadImage($event)"
+                              (_deleteFile)="deleteImage($event)"
+                              [route]="'tenders'"
+                              [fileFilter]="'image/*'"
+                              [refId]="'image'"
+                              [image]="image"></app-file-uploader>
+                    </div>
+                    <div class="col-span-1">
+                         <label class="block text-md font-bold leading-6 text-gray-900"> {{ t("coverImage") }}</label>
+                         <app-file-uploader
+                              (UploadedFile)="uploadCoverImage($event)"
+                              (_deleteFile)="deleteCoverImage($event)"
+                              [route]="'tenders'"
+                              [fileFilter]="'image/*'"
+                              [refId]="'coverImage'"
+                              [image]="coverImage"></app-file-uploader>
+                    </div>
+                    <div class="col-span-1">
+                         <label class="block text-md font-bold leading-6 text-gray-900">{{ t("video") }}</label>
+                         <app-video-uploader
+                              (UploadedFile)="uploadVideo($event)"
+                              (_deleteFile)="deleteVideo($event)"
+                              [route]="'tenders'"
+                              [refId]="'video'"
+                              [video]="video"></app-video-uploader>
+                    </div>
+               </div>
+          </div>
+          <mat-form-field class="w-1/3 pr-2" [subscriptSizing]="'dynamic'">
+               <mat-label>{{ t("title") }}</mat-label>
+               <input matInput [formControl]="tenderForm.get('title.' + activeLang)" placeholder="{{ 'title' | transloco }}" [spellcheck]="false" />
+               <mat-hint align="end">
+                    <a class="text-primary hover:cursor-pointer" (click)="openAddLang('title')"> {{ t("otherLanguages") }} </a>
+               </mat-hint>
+               <mat-error style="font-size: 12px" *ngIf="formErrors.title">
+                    {{ formErrors.title }}
+               </mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-1/3 pr-2" [subscriptSizing]="'dynamic'">
+               <mat-label>{{ t("category") }}</mat-label>
+               <mat-select [formControlName]="'category'">
+                    <mat-option *ngFor="let category of categories" [value]="category._id">
+                         {{ category.title[activeLang] }}
+                    </mat-option>
+               </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-1/3 pr-2" [subscriptSizing]="'dynamic'">
+               <mat-label> {{ t("tenderNo") }}</mat-label>
+               <input matInput [formControlName]="'tenderNo'" placeholder="{{ 'tenderNo' | transloco }}" [spellcheck]="false" />
+               <mat-error style="font-size: 12px" *ngIf="formErrors.tenderNo">
+                    {{ formErrors.tenderNo }}
+               </mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-1/3 pr-2" [subscriptSizing]="'dynamic'">
+               <mat-label> {{ t("projectIfExists") }}</mat-label>
+               <mat-select [formControlName]="'project'">
+                    <mat-option *ngFor="let project of projects" [value]="project._id">
+                         {{ project.title[activeLang] }}
+                    </mat-option>
+               </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-1/3 pr-2" [subscriptSizing]="'dynamic'">
+               <mat-label>{{ t("tenderDatesStartEnd") }}</mat-label>
+               <mat-date-range-input [rangePicker]="campaignTwoPicker">
+                    <input
+                         style="color: #000 !important"
+                         matStartDate
+                         placeholder="{{ 'startDate' | transloco }}"
+                         [formControlName]="'tenderStartDate'" />
+                    <input style="color: #000 !important" matEndDate placeholder="{{ 'endDate' | transloco }}" [formControlName]="'tenderEndDate'" />
+               </mat-date-range-input>
+               <mat-datepicker-toggle matIconSuffix [for]="campaignTwoPicker"></mat-datepicker-toggle>
+               <mat-date-range-picker #campaignTwoPicker disabled="false"></mat-date-range-picker>
+          </mat-form-field>
+          <mat-form-field class="w-1/3">
+               <mat-label> {{ t("lastBidDate") }}</mat-label>
+               <input style="color: #000 !important" matInput [matDatepicker]="dp3" [formControlName]="'lastBidDate'" disabled />
+               <mat-datepicker-toggle matIconSuffix [for]="dp3"></mat-datepicker-toggle>
+               <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="w-1/2 pr-2" [subscriptSizing]="'dynamic'">
+               <mat-label>{{ t("shortDescription") }}</mat-label>
+               <input
+                    matInput
+                    [formControl]="tenderForm.get('shortDescription.' + activeLang)"
+                    placeholder="{{ 'shortDescription' | transloco }}"
+                    [spellcheck]="false" />
+               <mat-hint align="end">
+                    <a class="text-primary hover:cursor-pointer" (click)="openAddLang('shortDescription')"> {{ t("otherLanguages") }} </a>
+               </mat-hint>
+               <mat-error style="font-size: 12px" *ngIf="formErrors.shortDescription">
+                    {{ formErrors.shortDescription }}
+               </mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-1/4 pr-2" [subscriptSizing]="'dynamic'">
+               <mat-label>{{ t("tenderRegistrationNo") }}</mat-label>
+               <input
+                    matInput
+                    [formControlName]="'tenderRegistrationNo'"
+                    placeholder="{{ 'tenderRegistrationNo' | transloco }}"
+                    [spellcheck]="false" />
+               <mat-error style="font-size: 12px" *ngIf="formErrors.tenderRegistrationNo">
+                    {{ formErrors.tenderRegistrationNo }}
+               </mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-1/4" [subscriptSizing]="'dynamic'">
+               <mat-label>{{ t("requestTrackingNo") }}</mat-label>
+               <input matInput [formControlName]="'requestNo'" placeholder="{{ 'requestTrackingNo' | transloco }}" [spellcheck]="false" />
+               <mat-error style="font-size: 12px" *ngIf="formErrors.requestNo">
+                    {{ formErrors.requestNo }}
+               </mat-error>
+          </mat-form-field>
+          <div class="mt-16 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+               <mat-form-field class="col-span-3" [subscriptSizing]="'dynamic'">
+                    <mat-label> {{ t("description") }}</mat-label>
+                    <textarea
+                         matInput
+                         [formControl]="tenderForm.get('description.' + activeLang)"
+                         placeholder="{{ 'descriptionTender' | transloco }}"
+                         [rows]="9"></textarea>
+                    <mat-hint align="end">
+                         <a class="text-primary hover:cursor-pointer" (click)="openAddLang('description')"> {{ t("otherLanguages") }} </a>
+                    </mat-hint>
+               </mat-form-field>
+               <div class="col-span-3">
+                    <label class="block text-md font-medium"> {{ t("attachFiles") }}</label>
+                    <app-files-uploader
+                         (UploadedFiles)="getDocuments($event)"
+                         (_deleteFile)="deleteDocument($event)"
+                         [route]="'tenders'"
+                         [images]="files"></app-files-uploader>
+               </div>
+          </div>
+
+          <div class="flex">
+               <button class="fuse-mat-button-large w-1/4 mt-6" mat-flat-button [color]="'warn'" (click)="cancel()">{{ t("cancel") }}</button>
+               <button
+                    class="fuse-mat-button-large w-1/3 ml-auto mt-6"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="tenderForm.invalid || tenderForm.disabled"
+                    (click)="onSubmit()">
+                    <span *ngIf="!tenderForm.disabled">
+                         <span *ngIf="tender">{{ t("update") }} </span>
+                         <span *ngIf="!tender">{{ t("create") }} </span>
+                    </span>
+                    <mat-progress-spinner *ngIf="tenderForm.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
+               </button>
+          </div>
+     </form>
+</ng-container>

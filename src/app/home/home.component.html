@@ -1,0 +1,444 @@
+<div class="relative isolate h-160 bg-black overflow-hidden" *transloco="let t">
+     <img
+          src="../../assets/ass/images/slider.jpeg"
+          alt=""
+          class="absolute z-0 h-full bg-black w-full object-cover object-top"
+          [style.transform]="'scale(' + scale + ')'" />
+     <!-- Rest of your content -->
+     <div
+          class="mx-auto max-w-7xl px-6 text-center justify-items-center h-full grid object-center content-center justify-center items-center lg:px-8">
+          <img src="../../assets/ass/images/ilil.png" class="w-16 opacity-60 hover:opacity-95 duration-700 text-center items-center" />
+          <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl">
+               The <span class="text-zinc-400 hover:text-green-600 cursor-cell duration-700">future</span> is already here<span class="text-green-600"
+                    >.</span
+               >
+          </h1>
+          <p class="mt-4 text-base z-50 text-white/70 sm:mt-6">{{ t("homeTitle") }}</p>
+     </div>
+</div>
+<div class="bg-white" *transloco="let t">
+     <main class="isolate">
+          <!-- Hero section -->
+          <div class="relative pt-4">
+               <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+                    <div
+                         class="relative animate-pulse left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                         style="
+                              clip-path: polygon(
+                                   74.1% 44.1%,
+                                   100% 61.6%,
+                                   97.5% 26.9%,
+                                   85.5% 0.1%,
+                                   80.7% 2%,
+                                   72.5% 32.5%,
+                                   60.2% 62.4%,
+                                   52.4% 68.1%,
+                                   47.5% 58.3%,
+                                   45.2% 34.5%,
+                                   27.5% 76.7%,
+                                   0.1% 64.9%,
+                                   17.9% 100%,
+                                   27.6% 76.8%,
+                                   76.1% 97.7%,
+                                   74.1% 44.1%
+                              );
+                         "></div>
+               </div>
+               <div class="py-12 sm:py-16">
+                    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                         <div class="mx-auto max-w-4xl text-center">
+                              <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl animate-pulse">
+                                   Ai <span class="text-zinc-400">{{ t("power") }}</span>
+                              </h1>
+                              <p class="mt-6 text-md leading-8 text-gray-600">
+                                   {{ t("home1") }}
+                              </p>
+                              <div class="mt-10 flex items-center justify-center gap-x-6">
+                                   <a routerLink="/about" class="text-sm font-semibold leading-6 text-gray-900 hover:text-cyan-500">
+                                        {{ t("learnMore") }} <span aria-hidden="true">→</span></a
+                                   >
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               <div
+                    class="absolute inset-x-0 top-[calc(100%-13rem)] animate-pulse -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+                    aria-hidden="true">
+                    <div
+                         class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+                         style="
+                              clip-path: polygon(
+                                   74.1% 44.1%,
+                                   100% 61.6%,
+                                   97.5% 26.9%,
+                                   85.5% 0.1%,
+                                   80.7% 2%,
+                                   72.5% 32.5%,
+                                   60.2% 62.4%,
+                                   52.4% 68.1%,
+                                   47.5% 58.3%,
+                                   45.2% 34.5%,
+                                   27.5% 76.7%,
+                                   0.1% 64.9%,
+                                   17.9% 100%,
+                                   27.6% 76.8%,
+                                   76.1% 97.7%,
+                                   74.1% 44.1%
+                              );
+                         "></div>
+               </div>
+          </div>
+
+          <div class="my-20 py-10 bg-white">
+               <div class="flex flex-row overflow-y-hidden w-full items-center scrollbar-hide">
+                    <swiper-container init="false">
+                         <swiper-slide *ngFor="let imagePath of array">
+                              <a class="w-full" [href]="imagePath.link" target="_blank">
+                                   <img src="{{ imagePath.image }}" class="w-full h-32 object-contain" />
+                              </a>
+                         </swiper-slide>
+                    </swiper-container>
+               </div>
+          </div>
+
+          <div class="bg-white py-12 sm:py-16">
+               <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                    <div class="mx-auto max-w-2xl text-center">
+                         <h2 class="text-3xl font-bold tracking-tight text-gray-900 uppercase sm:text-4xl">{{ t("latestProjects") }}</h2>
+                    </div>
+                    <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                         <article class="flex flex-col items-start justify-between" *ngFor="let project of projects">
+                              <div class="relative w-full" *ngIf="project.image">
+                                   <img
+                                        [src]="project.image.url"
+                                        class="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]" />
+                                   <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+                              </div>
+                              <div class="max-w-xl">
+                                   <div class="mt-8 flex items-center gap-x-4 text-xs">
+                                        <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+                                        <a class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
+                                             {{ project.category.title[activeLang] }}
+                                        </a>
+                                   </div>
+                                   <div class="group relative">
+                                        <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600 h-12">
+                                             <a routerLink="/{{ 'projects/' + project._id }}">
+                                                  <span class="absolute inset-0"></span>
+                                                  {{ project.title[activeLang] }}
+                                             </a>
+                                        </h3>
+                                        <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 h-18">
+                                             {{ project.shortDescription[activeLang] }}
+                                        </p>
+                                   </div>
+                                   <!-- <div class="relative mt-8 flex items-center gap-x-4">
+                                        <img
+                                             *ngIf="project.user.avatar"
+                                             [src]="project.user.avatar.url"
+                                             class="h-10 w-10 flex-none rounded-full bg-white/10 object-cover" />
+                                        <svg
+                                             *ngIf="!project.user.avatar"
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             class="h-10 w-10"
+                                             width="100%"
+                                             viewBox="0 0 512 512"
+                                             style="fill: #000 !important">
+                                             <path
+                                                  d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" />
+                                        </svg>
+                                        <div class="text-sm leading-6">
+                                             <p class="font-semibold text-gray-900">
+                                                  <a href="mailto:{{ project.user.username }}">
+                                                       <span class="absolute inset-0"></span>
+                                                       {{ project.user.name | titlecase }} {{ project.user.lastname | titlecase }}
+                                                  </a>
+                                             </p>
+                                             <p class="text-gray-600">{{ project.user.username }}</p>
+                                        </div>
+                                   </div> -->
+                              </div>
+                         </article>
+                    </div>
+               </div>
+          </div>
+          <!-- Box-->
+          <div class="mx-auto mt-16 max-w-7xl sm:mt-16 sm:px-6 lg:px-8">
+               <div class="relative overflow-hidden bg-gray-900 px-6 py-20 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
+                    <div class="absolute inset-0 bg-gray-900/90 mix-blend-multiply"></div>
+                    <div class="absolute animate-pulse -left-80 -top-56 transform-gpu blur-3xl" aria-hidden="true">
+                         <div
+                              class="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-[0.45]"
+                              style="
+                                   clip-path: polygon(
+                                        74.1% 44.1%,
+                                        100% 61.6%,
+                                        97.5% 26.9%,
+                                        85.5% 0.1%,
+                                        80.7% 2%,
+                                        72.5% 32.5%,
+                                        60.2% 62.4%,
+                                        52.4% 68.1%,
+                                        47.5% 58.3%,
+                                        45.2% 34.5%,
+                                        27.5% 76.7%,
+                                        0.1% 64.9%,
+                                        17.9% 100%,
+                                        27.6% 76.8%,
+                                        76.1% 97.7%,
+                                        74.1% 44.1%
+                                   );
+                              "></div>
+                    </div>
+                    <div
+                         class="hidden animate-pulse md:absolute md:bottom-16 md:left-[50rem] md:block md:transform-gpu md:blur-3xl"
+                         aria-hidden="true">
+                         <div
+                              class="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-25"
+                              style="
+                                   clip-path: polygon(
+                                        74.1% 44.1%,
+                                        100% 61.6%,
+                                        97.5% 26.9%,
+                                        85.5% 0.1%,
+                                        80.7% 2%,
+                                        72.5% 32.5%,
+                                        60.2% 62.4%,
+                                        52.4% 68.1%,
+                                        47.5% 58.3%,
+                                        45.2% 34.5%,
+                                        27.5% 76.7%,
+                                        0.1% 64.9%,
+                                        17.9% 100%,
+                                        27.6% 76.8%,
+                                        76.1% 97.7%,
+                                        74.1% 44.1%
+                                   );
+                              "></div>
+                    </div>
+                    <div class="relative mx-auto max-w-5xl lg:mx-0">
+                         <figure>
+                              <blockquote class="mt-6 text-lg font-semibold text-white sm:text-xl sm:leading-8">
+                                   <p class="text-3xl">{{ t("ourVision") }}</p>
+                              </blockquote>
+                              <figcaption class="mt-6 text-base text-white">
+                                   <div class="font-semibold">
+                                        {{ t("home2") }}
+                                   </div>
+                              </figcaption>
+                         </figure>
+                    </div>
+               </div>
+          </div>
+          <!-- Tender -->
+          <div class="bg-white py-24 sm:py-32">
+               <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                    <div class="mx-auto max-w-2xl text-center">
+                         <h2 class="text-3xl font-bold tracking-tight text-gray-900 uppercase sm:text-4xl">{{ t("latestTenders") }}</h2>
+                    </div>
+                    <div class="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-4 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                         <article
+                              *ngFor="let tender of tenders"
+                              class="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
+                              <img *ngIf="tender.image" src="{{ tender.image.url }}" class="absolute inset-0 -z-10 h-full w-full object-cover" />
+
+                              <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
+                              <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+
+                              <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
+                                   <time datetime="2020-03-16" class="mr-8">{{ tender.createdAt | date }}</time>
+                                   <div class="-ml-4 flex items-center gap-x-4">
+                                        <svg viewBox="0 0 2 2" class="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
+                                             <circle cx="1" cy="1" r="1" />
+                                        </svg>
+                                        <div class="flex gap-x-2.5">
+                                             <img
+                                                  *ngIf="tender.user.avatar"
+                                                  [src]="tender.user.avatar.url"
+                                                  class="h-6 w-6 flex-none rounded-full bg-white/10 object-cover" />
+                                             <svg
+                                                  *ngIf="!tender.user.avatar"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  class="h-6 w-6"
+                                                  width="100%"
+                                                  viewBox="0 0 512 512"
+                                                  style="fill: #fff !important">
+                                                  <path
+                                                       d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" />
+                                             </svg>
+                                             {{ tender.user.name | titlecase }} {{ tender.user.lastname | titlecase }}
+                                        </div>
+                                   </div>
+                              </div>
+                              <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
+                                   <a [routerLink]="['/tenders', tender._id]">
+                                        <span class="absolute inset-0"></span>
+                                        {{ tender.title[activeLang] }}
+                                   </a>
+                              </h3>
+                         </article>
+                    </div>
+               </div>
+          </div>
+
+          <div class="my-14 sm:mx-32 mx-12">
+               <dl
+                    class="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-zinc-50 shadow-2xl md:grid-cols-3 md:divide-x md:divide-y-0">
+                    <div class="px-4 py-5 sm:p-6">
+                         <dt class="text-base font-normal text-gray-900">NGO</dt>
+                         <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+                              <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+                                   <h1 [countUp]="500" [options]="{ enableScrollSpy: true }">0</h1>
+                                   +
+                                   <span class="ml-2 text-sm font-medium text-gray-500">Now 102</span>
+                              </div>
+
+                              <div
+                                   class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                                   <svg
+                                        class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        aria-hidden="true">
+                                        <path
+                                             fill-rule="evenodd"
+                                             d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
+                                             clip-rule="evenodd" />
+                                   </svg>
+                                   <span class="sr-only"> {{ t("increasedBy") }} </span>
+                                   500%
+                              </div>
+                         </dd>
+                    </div>
+
+                    <div class="px-4 py-5 sm:p-6">
+                         <dt class="text-base font-normal text-gray-900">{{ t("trafic") }}</dt>
+                         <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+                              <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+                                   <h1 [countUp]="100" [options]="{ enableScrollSpy: true }">0</h1>
+                                   K
+                                   <span class="ml-2 text-sm font-medium text-gray-500">{{ t("now10") }}</span>
+                              </div>
+
+                              <div
+                                   class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                                   <svg
+                                        class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        aria-hidden="true">
+                                        <path
+                                             fill-rule="evenodd"
+                                             d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
+                                             clip-rule="evenodd" />
+                                   </svg>
+                                   <span class="sr-only">{{ t("increasedBy") }}</span>
+                                   1000%
+                              </div>
+                         </dd>
+                    </div>
+                    <div class="px-4 py-5 sm:p-6">
+                         <dt class="text-base font-normal text-gray-900">{{ t("supplier") }}</dt>
+                         <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+                              <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+                                   <h1 [countUp]="1600" [options]="{ enableScrollSpy: true }">0</h1>
+                                   <span class="ml-2 text-sm font-medium text-gray-500">{{ t("now200") }}</span>
+                              </div>
+                              <div
+                                   class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+                                   <svg
+                                        class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        aria-hidden="true">
+                                        <path
+                                             fill-rule="evenodd"
+                                             d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z"
+                                             clip-rule="evenodd" />
+                                   </svg>
+                                   <span class="sr-only"> {{ t("increasedBy") }} </span>
+                                   800%
+                              </div>
+                         </dd>
+                    </div>
+               </dl>
+          </div>
+
+          <!-- Blog -->
+          <div class="bg-white py-24 sm:py-32">
+               <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                    <div class="mx-auto max-w-2xl text-center">
+                         <h2 class="text-3xl font-bold tracking-tight text-gray-900 uppercase sm:text-4xl">{{ t("lastPostedBlogs") }}</h2>
+                    </div>
+                    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                         <div class="mx-auto">
+                              <div class="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
+                                   <ng-container *ngFor="let blog of blogs">
+                                        <article class="relative isolate flex flex-col gap-8 lg:flex-row">
+                                             <div class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
+                                                  <img
+                                                       *ngIf="blog.image"
+                                                       src="{{ blog.image.url }}"
+                                                       class="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover" />
+                                                  <img
+                                                       *ngIf="!blog.image"
+                                                       src="https://via.placeholder.com/256x256"
+                                                       class="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover" />
+                                                  <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+                                             </div>
+                                             <div class="grid items-start">
+                                                  <div class="flex items-center gap-x-4 text-sm">
+                                                       <time datetime="2020-03-16" class="text-gray-500">{{ blog.createdAt | date : "short" }}</time>
+                                                       <a
+                                                            [routerLink]="['/blog', blog._id]"
+                                                            routerLinkActive="router-link-active"
+                                                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                                                            >{{ blog.category.title[activeLang] }}</a
+                                                       >
+                                                  </div>
+                                                  <div class="group relative">
+                                                       <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                                                            <a [routerLink]="['/blog', blog._id]">
+                                                                 <span class="absolute inset-0"></span>
+                                                                 {{ blog.title[activeLang] }}
+                                                            </a>
+                                                       </h3>
+                                                       <p class="mt-5 text-md leading-6 text-gray-600">
+                                                            {{ blog.shortDescription[activeLang] }}
+                                                       </p>
+                                                  </div>
+                                                  <!-- <div class="mt-6 flex border-t border-gray-900/5 pt-6">
+                                                       <div class="relative flex items-center gap-x-4">
+                                                            <svg
+                                                                 *ngIf="!blog.user.avatar"
+                                                                 xmlns="http://www.w3.org/2000/svg"
+                                                                 class="h-10 w-10"
+                                                                 width="100%"
+                                                                 viewBox="0 0 512 512"
+                                                                 style="fill: #000 !important">
+                                                                 <path
+                                                                      d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" />
+                                                            </svg>
+                                                            <img
+                                                                 *ngIf="blog.user.avatar"
+                                                                 src="{{ blog.user.avatar.url }}"
+                                                                 class="h-10 w-10 rounded-full object-cover bg-gray-50" />
+                                                            <div class="text-sm leading-6">
+                                                                 <p class="font-semibold text-gray-900">
+                                                                      <span class="absolute inset-0"></span>
+                                                                      {{ blog.user.name | titlecase }} {{ blog.user.lastname | titlecase }}
+                                                                 </p>
+                                                                 <p class="text-gray-600">{{ blog.user.username }}</p>
+                                                            </div>
+                                                       </div>
+                                                  </div> -->
+                                             </div>
+                                        </article>
+                                   </ng-container>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </main>
+</div>

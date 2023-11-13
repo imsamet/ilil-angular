@@ -1,0 +1,170 @@
+<div class="relative isolate h-96 bg-black overflow-hidden" *transloco="let t">
+     <div
+          class="mx-auto max-w-7xl px-6 text-center justify-items-center h-full grid object-center content-center justify-center items-center lg:px-8">
+          <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl">
+               {{ tender.title[activeLang] | titlecase }}<span class="text-green-600">.</span>
+          </h1>
+          <p class="mt-4 text-base z-50 text-white/70 sm:mt-6">{{ t("blogTitleHeader") }}</p>
+     </div>
+</div>
+<div class="bg-white py-12 sm:py-16">
+     <div class="mx-auto max-w-7xl px-6 lg:px-8">
+          <div class="mx-auto grid max-w-2xl grid-cols-1 items-start gap-x-8 gap-y-16 sm:gap-y-24 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+               <div class="lg:pr-4">
+                    <div
+                         class="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80 shadow-2xl sm:px-12 lg:max-w-lg lg:px-8 lg:pb-8 xl:px-10 xl:pb-10">
+                         <img
+                              *ngIf="!tender.image"
+                              class="absolute inset-0 h-full w-full object-cover brightness-125 saturate-0"
+                              src="https://images.unsplash.com/photo-1630569267625-157f8f9d1a7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80"
+                              alt="" />
+                         <img *ngIf="tender.image" src="{{ tender.image.url }}" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover" />
+                         <!-- <figure class="relative isolate">
+                              <blockquote class="mt-6 text-xl font-semibold leading-8 text-white">
+                                   <p>“{{ tender.shortDescription }}”</p>
+                              </blockquote>
+                         </figure> -->
+                    </div>
+               </div>
+               <div>
+                    <div class="text-base leading-7 text-gray-700 lg:max-w-lg">
+                         <p class="text-base font-semibold leading-7 text-indigo-600">{{ tender.category.title[activeLang] }}</p>
+                         <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ tender.title[activeLang] }}</h1>
+                         <div class="max-w-xl">
+                              <p class="mt-6">
+                                   {{ tender.shortDescription[activeLang] }}
+                              </p>
+                         </div>
+                    </div>
+
+                    <dl class="mt-10 grid grid-cols-2 gap-8 border-t border-gray-900/10 pt-10 sm:grid-cols-4">
+                         <div>
+                              <dt class="text-sm font-semibold leading-6 text-gray-600">{{ tender.createdAt | date }}</dt>
+                         </div>
+                    </dl>
+                    <div
+                         class="relative flex items-center space-x-3 rounded-lg bg-white py-8 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">
+                         <div class="flex-shrink-0" *ngIf="tender.user.avatar">
+                              <img class="h-10 w-10 rounded-full object-cover" src="{{ tender.user.avatar.url }}" alt="" />
+                         </div>
+                         <svg
+                              *ngIf="!tender.user.avatar"
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-10 w-10"
+                              width="100%"
+                              viewBox="0 0 512 512"
+                              style="fill: #000000 !important">
+                              <path
+                                   d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" />
+                         </svg>
+                         <div class="min-w-0 flex-1">
+                              <a href="mailto:{{ tender.user.username }}" class="focus:outline-none">
+                                   <span class="absolute inset-0" aria-hidden="true"></span>
+                                   <p class="text-sm font-medium text-gray-900">{{ tender.user.name }}</p>
+                                   <p class="truncate text-sm text-gray-500">
+                                        <a>
+                                             {{ tender.user.username }}
+                                        </a>
+                                   </p>
+                              </a>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <div class="bg-white py-12 sm:py-16" *transloco="let t">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+               <div class="overflow-hidden bg-white shadow sm:rounded-lg">
+                    <div class="border-t border-gray-100">
+                         <dl class="divide-y divide-gray-100">
+                              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                   <dt class="text-sm font-medium text-gray-900">{{ t("tenderNo") }}</dt>
+                                   <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        {{ tender.tenderNo }}
+                                   </dd>
+                              </div>
+                              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                   <dt class="text-sm font-medium text-gray-900">{{ t("tenderRegistrationNo") }}</dt>
+                                   <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        {{ tender.tenderRegistrationNo }}
+                                   </dd>
+                              </div>
+                              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                   <dt class="text-sm font-medium text-gray-900">{{ t("requestTrackingNo") }}</dt>
+                                   <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        {{ tender.requestNo }}
+                                   </dd>
+                              </div>
+                              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                   <dt class="text-sm font-medium text-gray-900">{{ t("description") }}</dt>
+                                   <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        {{ tender.description[activeLang] }}
+                                   </dd>
+                              </div>
+                              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                   <dt class="text-sm font-medium text-gray-900">{{ t("startDate") }}</dt>
+                                   <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        {{ tender.tenderStartDate | date : "dd.MM.YYYY" }}
+                                   </dd>
+                              </div>
+                              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                   <dt class="text-sm font-medium text-gray-900">{{ t("endDate") }}</dt>
+                                   <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        {{ tender.tenderEndDate | date : "dd.MM.YYYY" }}
+                                   </dd>
+                              </div>
+                              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                   <dt class="text-sm font-medium text-gray-900">{{ t("lastBidDate") }}</dt>
+                                   <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                        {{ tender.lastBidDate | date : "dd.MM.YYYY" }}
+                                   </dd>
+                              </div>
+                              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                   <dt class="text-sm font-medium leading-6 text-gray-900">{{ t("attachments") }}</dt>
+                                   <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                        <ng-container *ngIf="user; else noUser">
+                                             <ng-container *ngIf="tender.files.length > 0; else noAttachments">
+                                                  <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
+                                                       <li
+                                                            class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6"
+                                                            *ngFor="let file of tender.files">
+                                                            <div class="flex w-0 flex-1 items-center">
+                                                                 <svg
+                                                                      class="h-5 w-5 flex-shrink-0 text-gray-400"
+                                                                      viewBox="0 0 20 20"
+                                                                      fill="currentColor"
+                                                                      aria-hidden="true">
+                                                                      <path
+                                                                           fill-rule="evenodd"
+                                                                           d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z"
+                                                                           clip-rule="evenodd" />
+                                                                 </svg>
+                                                                 <div class="ml-4 flex min-w-0 flex-1 gap-2">
+                                                                      <span class="truncate font-medium">{{ file.original_name }}</span>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="ml-4 flex-shrink-0">
+                                                                 <a
+                                                                      href="{{ file.url }}"
+                                                                      target="_blank"
+                                                                      class="font-medium text-indigo-600 hover:text-indigo-500">
+                                                                      {{ t("linkPreview") }}
+                                                                 </a>
+                                                            </div>
+                                                       </li>
+                                                  </ul>
+                                             </ng-container>
+                                             <ng-template #noAttachments> {{ t("noFileAttached") }}</ng-template>
+                                        </ng-container>
+                                        <ng-template #noUser>
+                                             <span class="text-red-500 font-semibold"> {{ t("loginToSeeFiles") }} </span>
+                                        </ng-template>
+                                   </dd>
+                              </div>
+                         </dl>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>

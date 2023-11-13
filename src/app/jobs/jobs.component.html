@@ -1,0 +1,176 @@
+<mat-drawer-container class="example-container" [hasBackdrop]="true" autosize>
+     <mat-drawer #drawer [mode]="'over'" class="w-72">
+          <div class="border-t border-gray-200 pb-4 pt-4">
+               <fieldset>
+                    <span class="px-4 text-lg font-medium text-gray-900 mb-10" *transloco="let t">{{ t("category") }}</span>
+                    <div class="px-4 pb-2 pt-4">
+                         <div class="space-y-6 pt-6">
+                              <div class="flex flex-col items-start">
+                                   <ng-container *ngFor="let category of jobCategories">
+                                        <mat-checkbox [color]="'primary'" [(ngModel)]="category.selected" (ngModelChange)="updateAllComplete()">
+                                             {{ category.title[activeLang] }}
+                                        </mat-checkbox>
+                                   </ng-container>
+                              </div>
+                         </div>
+                    </div>
+               </fieldset>
+          </div>
+     </mat-drawer>
+     <mat-drawer-content>
+          <div class="relative isolate h-96 bg-black overflow-hidden">
+               <div
+                    class="mx-auto max-w-7xl px-6 text-center justify-items-center h-full grid object-center content-center justify-center items-center lg:px-8">
+                    <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl" *ngIf="activeLang == 'en'">
+                         List of <span class="text-zinc-400 hover:text-green-600 cursor-cell duration-700">jobs</span> Announcement
+                         <span class="text-green-600"> . </span>
+                    </h1>
+                    <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl" *ngIf="activeLang == 'tr'">
+                         <span class="text-zinc-400 hover:text-green-600 cursor-cell duration-700">İş ilanlarının</span> listesi
+                         <span class="text-green-600"> . </span>
+                    </h1>
+                    <!-- <p class="mt-4 text-base z-50 text-white/70 sm:mt-6">Learn how to grow your business with our expert advice.</p> -->
+               </div>
+          </div>
+          <div class="bg-white" *transloco="let t">
+               <div>
+                    <main class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                         <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+                              <aside>
+                                   <h2 class="sr-only">{{ t("filters") }}</h2>
+                                   <button type="button" class="inline-flex items-center lg:hidden">
+                                        <span class="text-sm font-medium text-gray-700" (click)="drawer.toggle()">{{ t("filters") }} </span>
+                                        <svg
+                                             class="ml-1 h-5 w-5 flex-shrink-0 text-gray-400"
+                                             viewBox="0 0 20 20"
+                                             fill="currentColor"
+                                             aria-hidden="true">
+                                             <path
+                                                  d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                        </svg>
+                                   </button>
+                                   <button mat-button color="primary" class="text-sm ml-2 lg:hidden" (click)="clearFilters()">
+                                        Clear {{ selectedCategoryIds.length == 0 ? "" : selectedCategoryIds.length }} Filters
+                                   </button>
+                                   <div class="hidden lg:block">
+                                        <div class="space-y-10 divide-y divide-gray-200">
+                                             <fieldset>
+                                                  <legend class="block text-sm font-medium text-gray-900">
+                                                       {{ t("filterByCategory") }}
+                                                       <button mat-button color="primary" class="text-sm ml-2" (click)="clearFilters()">
+                                                            Clear {{ selectedCategoryIds.length == 0 ? "" : selectedCategoryIds.length }} Filters
+                                                       </button>
+                                                  </legend>
+                                                  <div class="space-y-3 pt-6">
+                                                       <div class="flex flex-col items-start">
+                                                            <ng-container *ngFor="let category of jobCategories">
+                                                                 <mat-checkbox
+                                                                      [color]="'primary'"
+                                                                      [(ngModel)]="category.selected"
+                                                                      (ngModelChange)="updateAllComplete()">
+                                                                      <span style="font-size: 11px !important">
+                                                                           {{ category.title[activeLang] }}
+                                                                           <span style="color: #00000054 !important">
+                                                                                ({{ getCount(category._id) }})
+                                                                           </span>
+                                                                      </span>
+                                                                 </mat-checkbox>
+                                                            </ng-container>
+                                                       </div>
+                                                  </div>
+                                             </fieldset>
+                                        </div>
+                                   </div>
+                              </aside>
+                              <div class="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
+                                   <ng-container *ngIf="filteredJobs.length > 0; else noData">
+                                        <div class="mx-auto">
+                                             <ul
+                                                  role="list"
+                                                  class="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+                                                  <ng-container *ngFor="let job of filteredJobs">
+                                                       <li class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6">
+                                                            <div class="flex min-w-0 gap-x-4 items-center">
+                                                                 <img
+                                                                      *ngIf="job.image"
+                                                                      class="h-12 w-12 flex-none rounded-full bg-gray-50 object-cover"
+                                                                      [src]="job.image.url"
+                                                                      alt="" />
+                                                                 <svg
+                                                                      *ngIf="!job.image"
+                                                                      xmlns="http://www.w3.org/2000/svg"
+                                                                      class="h-10 w-10"
+                                                                      width="100%"
+                                                                      viewBox="0 0 512 512"
+                                                                      style="fill: #000 !important">
+                                                                      <path
+                                                                           d="M406.5 399.6C387.4 352.9 341.5 320 288 320H224c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3h64c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" />
+                                                                 </svg>
+                                                                 <div class="min-w-0 flex-auto">
+                                                                      <div class="flex items-start gap-x-3">
+                                                                           <p class="text-md font-semibold leading-6 text-gray-900">
+                                                                                <a [routerLink]="[job._id]">
+                                                                                     <span class="absolute inset-x-0 -top-px bottom-0"></span>
+                                                                                     {{ job.title[activeLang] | titlecase }}
+                                                                                </a>
+                                                                           </p>
+                                                                           <p
+                                                                                class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">
+                                                                                {{ job.category.title[activeLang] | titlecase }}
+                                                                           </p>
+                                                                           <ng-container *ngFor="let type of job.types">
+                                                                                <p
+                                                                                     class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-yellow-800 bg-yellow-50 ring-yellow-600/20">
+                                                                                     {{ type }}
+                                                                                </p>
+                                                                           </ng-container>
+                                                                      </div>
+
+                                                                      <p class="mt-1 flex text-sm leading-5 text-gray-500">
+                                                                           {{ job.companyName | titlecase }} - {{ job.location.name | titlecase }}
+                                                                      </p>
+                                                                      <p class="mt-1 flex text-xs leading-5 text-gray-500">
+                                                                           {{ job.shortDescription[activeLang] }}
+                                                                      </p>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="flex shrink-0 items-center gap-x-4">
+                                                                 <div class="hidden sm:flex sm:flex-col sm:items-end">
+                                                                      <p class="text-sm leading-6 text-gray-500">
+                                                                           <a
+                                                                                href="mailto:leslie.alexander@example.com"
+                                                                                class="relative truncate hover:underline">
+                                                                                {{ job.user.username }}
+                                                                           </a>
+                                                                      </p>
+                                                                      <p class="mt-1 text-xs leading-5 text-gray-500">
+                                                                           Posted At:
+                                                                           <time datetime="2023-01-23T13:23Z">{{ job.createdAt | date }}</time>
+                                                                      </p>
+                                                                 </div>
+                                                                 <svg
+                                                                      class="h-5 w-5 flex-none text-gray-400"
+                                                                      viewBox="0 0 20 20"
+                                                                      fill="currentColor"
+                                                                      aria-hidden="true">
+                                                                      <path
+                                                                           fill-rule="evenodd"
+                                                                           d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                                                                           clip-rule="evenodd" />
+                                                                 </svg>
+                                                            </div>
+                                                       </li>
+                                                  </ng-container>
+                                             </ul>
+                                        </div>
+                                   </ng-container>
+                                   <ng-template #noData>
+                                        <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center">{{ t("noResults") }}</div>
+                                   </ng-template>
+                              </div>
+                         </div>
+                    </main>
+               </div>
+          </div>
+     </mat-drawer-content>
+</mat-drawer-container>

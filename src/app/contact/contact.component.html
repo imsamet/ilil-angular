@@ -1,0 +1,208 @@
+<div class="relative isolate h-96 bg-black overflow-hidden" *transloco="let t">
+     <div
+          class="mx-auto max-w-7xl px-6 text-center justify-items-center h-full grid object-center content-center justify-center items-center lg:px-8">
+          <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl">
+               {{ t("contact") }} <span class="text-zinc-400 hover:text-green-600 cursor-cell duration-700">{{ t("us") }}</span
+               ><span class="text-green-600">.</span>
+          </h1>
+          <p class="mt-4 text-base z-50 text-white/70 sm:mt-6">{{ t("contact1") }}</p>
+     </div>
+</div>
+<div class="relative isolate bg-white px-6 pt-16 lg:px-8" *transloco="let t">
+     <svg
+          class="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+          aria-hidden="true">
+          <defs>
+               <pattern id="83fd4e5a-9d52-42fc-97b6-718e5d7ee527" width="200" height="200" x="50%" y="-64" patternUnits="userSpaceOnUse">
+                    <path d="M100 200V.5M.5 .5H200" fill="none" />
+               </pattern>
+          </defs>
+          <svg x="50%" y="-64" class="overflow-visible fill-gray-50">
+               <path d="M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M299.5 800h201v201h-201Z" stroke-width="0" />
+          </svg>
+          <rect width="100%" height="100%" stroke-width="0" fill="url(#83fd4e5a-9d52-42fc-97b6-718e5d7ee527)" />
+     </svg>
+     <div class="mx-auto max-w-xl lg:max-w-4xl">
+          <h2 class="text-4xl font-bold tracking-tight text-gray-900">{{ t("contact2") }}</h2>
+          <div class="mt-16 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
+               <form class="lg:flex-auto" *ngIf="feedbackForm" [formGroup]="feedbackForm" #feedbackNgForm="ngForm">
+                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+                         <mat-form-field>
+                              <mat-label>{{ t("firstName") }}</mat-label>
+                              <input matInput [formControlName]="'name'" placeholder="{{ 'firstName' | transloco }}" [spellcheck]="false" />
+                              <mat-error style="font-size: 12px" *ngIf="formErrors.name">
+                                   {{ formErrors.name }}
+                              </mat-error>
+                         </mat-form-field>
+                         <mat-form-field>
+                              <mat-label> {{ t("lastName") }}</mat-label>
+                              <input matInput [formControlName]="'lastname'" placeholder="{{ 'lastName' | transloco }}" [spellcheck]="false" />
+                              <mat-error style="font-size: 12px" *ngIf="formErrors.lastname">
+                                   {{ formErrors.lastname }}
+                              </mat-error>
+                         </mat-form-field>
+                         <mat-form-field>
+                              <mat-label> {{ t("email") }} </mat-label>
+                              <input matInput [formControlName]="'email'" [placeholder]="'info@example.com'" [spellcheck]="false" />
+                              <mat-error style="font-size: 12px" *ngIf="formErrors.email">
+                                   {{ formErrors.email }}
+                              </mat-error>
+                         </mat-form-field>
+                         <mat-form-field>
+                              <mat-label>{{ t("website") }}</mat-label>
+                              <input matInput [formControlName]="'website'" [placeholder]="'www.example.com'" [spellcheck]="false" />
+                         </mat-form-field>
+                         <mat-form-field class="sm:col-span-2">
+                              <mat-label>{{ t("about") }}</mat-label>
+                              <input matInput [formControlName]="'about'" placeholder="{{ 'about' | transloco }}" [spellcheck]="false" />
+                         </mat-form-field>
+                         <mat-form-field class="sm:col-span-2">
+                              <mat-label> {{ t("message") }} </mat-label>
+                              <textarea matInput [formControlName]="'message'" placeholder="{{ 'message' | transloco }}" [rows]="5"></textarea>
+                              <mat-error style="font-size: 12px" *ngIf="formErrors.message">
+                                   {{ formErrors.message }}
+                              </mat-error>
+                         </mat-form-field>
+                    </div>
+                    <div class="mt-2 w-1/2">
+                         <button
+                              class="fuse-mat-button-small w-full"
+                              mat-flat-button
+                              [color]="'primary'"
+                              [disabled]="feedbackForm.invalid || feedbackForm.disabled"
+                              (click)="onSubmit()">
+                              <span *ngIf="!feedbackForm.disabled"> {{ t("letsTalk") }} </span>
+                              <mat-progress-spinner *ngIf="feedbackForm.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
+                         </button>
+                    </div>
+               </form>
+               <div class="lg:mt-6 lg:w-80 lg:flex-none">
+                    <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-indigo-600.svg" alt="" />
+                    <figure class="mt-10">
+                         <blockquote class="text-lg font-semibold leading-8 text-gray-900">
+                              <p>
+                                   {{ t("contact3") }}
+                              </p>
+                         </blockquote>
+                    </figure>
+               </div>
+          </div>
+     </div>
+</div>
+
+<div class="w-full justify-center content-center flex" *transloco="let t">
+     <div class="px-4 w-9/12 grid pb-16 items-center object-center justify-center">
+          <div
+               class="max-w-xl pb-10 grid justify-center items-center justify-items-center object-center mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
+               <div class="w-32 flex">
+                    <ng-lottie [options]="options"></ng-lottie>
+               </div>
+               <h2
+                    class="max-w-lg mb-6 font-sans text-3xl uppercase font-bold leading-none tracking-tight text-black sm:text-4xl md:text-2xl md:mx-auto">
+                    {{ t("meetUs") }}
+               </h2>
+               <p class="text-black">
+                    {{ t("contact4") }}
+                    <a
+                         class="text-black hover:text-green-500 duration-300 transform"
+                         href="mailto:info@truted.com?subject=Meeting%20Request%20with%20Truted&body=Title:%0A%0A%0A%0AHow to meet:%0A%0A%0AWhen:%0A%0A%0A%0A%0AMessage:%0A%0A%0A">
+                         {{ t("appointment") }}
+                    </a>
+                    {{ t("contact5") }}
+               </p>
+          </div>
+          <div class="grid gap-5 mb-8 md:grid-cols-2 w-full lg:grid-cols-3">
+               <div class="p-5 duration-300 transform w-full border-2 rounded shadow-sm hover:grayscale hover:scale-105">
+                    <a class="flex h-12 mb-4 rounded-full" href="https://meet.google.com/put-ujsz-ddx" target="_blank">
+                         <svg height="48px" viewBox="0 0 48 48" width="48px" xmlns="http://www.w3.org/2000/svg">
+                              <rect height="16" transform="rotate(-90 20 24)" width="16" x="12" y="16" />
+                              <polygon fill="#1e88e5" points="3,17 3,31 8,32 13,31 13,17 8,16" />
+                              <path d="M37,24v14c0,1.657-1.343,3-3,3H13l-1-5l1-5h14v-7l5-1L37,24z" fill="#4caf50" />
+                              <path d="M37,10v14H27v-7H13l-1-5l1-5h21C35.657,7,37,8.343,37,10z" fill="#fbc02d" />
+                              <path d="M13,31v10H6c-1.657,0-3-1.343-3-3v-7H13z" fill="#1565c0" />
+                              <polygon fill="#e53935" points="13,7 13,17 3,17" />
+                              <polygon fill="#2e7d32" points="38,24 37,32.45 27,24 37,15.55" />
+                              <path
+                                   d="M46,10.11v27.78c0,0.84-0.98,1.31-1.63,0.78L37,32.45v-16.9l7.37-6.22C45.02,8.8,46,9.27,46,10.11z"
+                                   fill="#4caf50" />
+                         </svg>
+                    </a>
+                    <a href="https://meet.google.com/put-ujsz-ddx" target="_blank">
+                         <h6 class="mb-2 font-semibold leading-5 text-black">{{ t("Office") }}</h6>
+                         <p class="text-sm text-black">{{ t("contact6") }}</p>
+                    </a>
+               </div>
+               <div class="p-5 duration-300 transform w-full border-2 rounded shadow-sm hover:grayscale hover:scale-105">
+                    <a class="flex h-12 mb-4 rounded-full" href="https://meet.google.com/wyy-avpz-hpj" target="_blank">
+                         <svg height="48px" viewBox="0 0 48 48" width="48px" xmlns="http://www.w3.org/2000/svg">
+                              <rect height="16" transform="rotate(-90 20 24)" width="16" x="12" y="16" />
+                              <polygon fill="#1e88e5" points="3,17 3,31 8,32 13,31 13,17 8,16" />
+                              <path d="M37,24v14c0,1.657-1.343,3-3,3H13l-1-5l1-5h14v-7l5-1L37,24z" fill="#4caf50" />
+                              <path d="M37,10v14H27v-7H13l-1-5l1-5h21C35.657,7,37,8.343,37,10z" fill="#fbc02d" />
+                              <path d="M13,31v10H6c-1.657,0-3-1.343-3-3v-7H13z" fill="#1565c0" />
+                              <polygon fill="#e53935" points="13,7 13,17 3,17" />
+                              <polygon fill="#2e7d32" points="38,24 37,32.45 27,24 37,15.55" />
+                              <path
+                                   d="M46,10.11v27.78c0,0.84-0.98,1.31-1.63,0.78L37,32.45v-16.9l7.37-6.22C45.02,8.8,46,9.27,46,10.11z"
+                                   fill="#4caf50" />
+                         </svg>
+                    </a>
+                    <a href="https://meet.google.com/wyy-avpz-hpj" target="_blank">
+                         <h6 class="mb-2 font-semibold leading-5 text-black">{{ t("assistance") }}</h6>
+                         <p class="text-sm text-black">{{ t("contact7") }}</p>
+                    </a>
+               </div>
+               <div class="p-5 duration-300 transform w-full border-2 rounded shadow-sm hover:grayscale hover:scale-105">
+                    <a class="flex h-12 mb-4 rounded-full" href="https://meet.google.com/put-ujsz-ddx" target="_blank">
+                         <svg height="48px" viewBox="0 0 48 48" width="48px" xmlns="http://www.w3.org/2000/svg">
+                              <rect height="16" transform="rotate(-90 20 24)" width="16" x="12" y="16" />
+                              <polygon fill="#1e88e5" points="3,17 3,31 8,32 13,31 13,17 8,16" />
+                              <path d="M37,24v14c0,1.657-1.343,3-3,3H13l-1-5l1-5h14v-7l5-1L37,24z" fill="#4caf50" />
+                              <path d="M37,10v14H27v-7H13l-1-5l1-5h21C35.657,7,37,8.343,37,10z" fill="#fbc02d" />
+                              <path d="M13,31v10H6c-1.657,0-3-1.343-3-3v-7H13z" fill="#1565c0" />
+                              <polygon fill="#e53935" points="13,7 13,17 3,17" />
+                              <polygon fill="#2e7d32" points="38,24 37,32.45 27,24 37,15.55" />
+                              <path
+                                   d="M46,10.11v27.78c0,0.84-0.98,1.31-1.63,0.78L37,32.45v-16.9l7.37-6.22C45.02,8.8,46,9.27,46,10.11z"
+                                   fill="#4caf50" />
+                         </svg>
+                    </a>
+                    <a href="https://meet.google.com/put-ujsz-ddx" target="_blank">
+                         <h6 class="mb-2 font-semibold leading-5 text-black">{{ t("management") }}</h6>
+                         <p class="text-sm text-black">{{ t("contact8") }}</p>
+                    </a>
+               </div>
+          </div>
+     </div>
+</div>
+
+<div class="bg-white py-8 sm:py-10">
+     <div class="mx-auto max-w-7xl px-6 lg:px-8" *transloco="let t">
+          <div class="mx-auto max-w-2xl lg:mx-0">
+               <h2 class="text-3xl font-bold tracking-tight text-gray-900">{{ t("ourOffices") }}</h2>
+          </div>
+          <div
+               class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 text-base leading-7 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+               <div>
+                    <h3 class="border-l border-indigo-600 pl-6 font-semibold text-gray-900">Los Angeles</h3>
+                    <address class="border-l border-gray-200 pl-6 pt-2 not-italic text-gray-600">
+                         <p>1001 Tivertan Ave. #4158</p>
+                         <p>Los Angeles, US 90024</p>
+                         <p>
+                              <a href="te:+13109139171"> +1 (310) 913-9171 </a>
+                         </p>
+                    </address>
+               </div>
+               <div>
+                    <h3 class="border-l border-indigo-600 pl-6 font-semibold text-gray-900">Manchester</h3>
+                    <address class="border-l border-gray-200 pl-6 pt-2 not-italic text-gray-600">
+                         <p>UK, Manchester, Salford, The leader House- The green Romm</p>
+                         <p>Post code: M50 2AG</p>
+                         <p>
+                              <a href="tel:+447718944459"> +44 7718 944459 </a>
+                         </p>
+                    </address>
+               </div>
+          </div>
+     </div>
+</div>

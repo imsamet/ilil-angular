@@ -1,0 +1,521 @@
+<div class="relative bg-white">
+     <div class="flex items-center justify-evenly p-6 md:justify-evenly md:space-x-10">
+          <div class="flex justify-start lg:w-0 lg:flex-1">
+               <a routerLink="/home" class="-m-1.5 p-1.5 ml-10">
+                    <span class="sr-only">ililihale</span>
+                    <img class="h-9 w-auto" src="../../../assets/ass/logo/Asset 1da.svg" />
+               </a>
+          </div>
+          <div class="-my-2 -mr-2 md:hidden">
+               <div class="flex justify-between">
+                    <ng-container *ngIf="user">
+                         <button mat-icon-button class="text-black w-14" [matMenuTriggerFor]="userActions">
+                              <span class="relative">
+                                   <mat-icon svgIcon="heroicons_outline:user-circle"></mat-icon>
+                              </span>
+                         </button>
+                         <mat-menu class="w-60" [xPosition]="'before'" #userActions="matMenu">
+                              <button mat-menu-item>
+                                   <span class="flex flex-col leading-5 text-sm">
+                                        <span *transloco="let t">
+                                             {{ t("signedInAs") }}
+                                             <span class="mt-1.5 text-md font-medium">{{ user.username }}</span>
+                                        </span>
+                                   </span>
+                              </button>
+                              <mat-divider class="my-2"></mat-divider>
+                              <button mat-menu-item (click)="profile()">
+                                   <mat-icon>account_circle</mat-icon>
+                                   <span *transloco="let t" class="text-sm">{{ t("profile") }} </span>
+                              </button>
+                              <mat-divider class="my-2"></mat-divider>
+                              <button mat-menu-item (click)="signOut()">
+                                   <mat-icon>keyboard_backspace</mat-icon>
+                                   <span *transloco="let t" class="text-sm">{{ t("signOut") }} </span>
+                              </button>
+                         </mat-menu>
+                    </ng-container>
+                    <ng-container *ngIf="!user">
+                         <button routerLink="/login" *transloco="let t" class="text-black w-20" mat-button>Sign in {{ t("signedInAs") }}</button>
+                    </ng-container>
+                    <button
+                         (click)="toggleDropdown()"
+                         type="button"
+                         class="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                         <span class="sr-only">Open main menu</span>
+                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                         </svg>
+                    </button>
+               </div>
+          </div>
+          <div>
+               <button mat-icon-button [matMenuTriggerFor]="languages">
+                    <ng-container *ngTemplateOutlet="flagImage; context: { $implicit: activeLang }"></ng-container>
+               </button>
+               <mat-menu [xPosition]="'before'" #languages="matMenu">
+                    <ng-container *ngFor="let lang of availableLangs; trackBy: trackByFn">
+                         <button mat-menu-item (click)="setActiveLang(lang.id)">
+                              <span class="flex items-center">
+                                   <ng-container *ngTemplateOutlet="flagImage; context: { $implicit: lang.id }"></ng-container>
+                                   <span class="ml-3">{{ lang.label }}</span>
+                              </span>
+                         </button>
+                    </ng-container>
+               </mat-menu>
+          </div>
+          <nav class="hidden space-x-10 md:flex">
+               <a routerLink="/about" class="text-base font-medium text-gray-500 hover:text-gray-900" *transloco="let t"> {{ t("aboutUs") }} </a>
+               <div class="relative h-8" id="projects">
+                    <a
+                         (click)="showProjects()"
+                         *transloco="let t"
+                         class="text-gray-500 group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer">
+                         {{ t("projectsGrantsFunds") }}
+                         <mat-icon
+                              class="icon-size-5"
+                              [svgIcon]="isShowMoreOpened2 ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
+                    </a>
+                    <div
+                         class="absolute -z-99999 mt-3 w-screen max-w-320 transform lg:ml-0 lg:-translate-x-1/2 transition ease-out duration-200 opacity-0 -translate-y-1"
+                         style="left: 100%"
+                         [ngClass]="{
+                              'pointer-events-auto opacity-100 translate-y-0 transition ease-in duration-150 z-99999': isShowMoreOpened2
+                         }">
+                         <div class="absolute inset-0 flex">
+                              <div class="w-1/2 bg-white"></div>
+                              <div class="w-1/2 bg-gray-50"></div>
+                         </div>
+                         <div class="relative mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2">
+                              <nav class="grid gap-y-10 bg-white px-4 py-8 sm:grid-cols-2 sm:gap-x-8 sm:px-6 sm:py-12 lg:px-8 xl:pr-12">
+                                   <div>
+                                        <ul role="list" class="mt-5 space-y-6">
+                                             <li class="flow-root" *ngFor="let category of projectCategories | slice : 0 : 5">
+                                                  <a
+                                                       [routerLink]="['/projects']"
+                                                       [queryParams]="{ category: category._id }"
+                                                       (click)="closeAll()"
+                                                       class="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-50">
+                                                       <svg
+                                                            class="h-6 w-6 flex-shrink-0 text-gray-400"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                            aria-hidden="true">
+                                                            <path
+                                                                 stroke-linecap="round"
+                                                                 stroke-linejoin="round"
+                                                                 d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                                       </svg>
+                                                       <span class="ml-4">{{ category.title[activeLang] | titlecase }}</span>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </div>
+                                   <div>
+                                        <ul role="list" class="mt-5 space-y-6">
+                                             <li class="flow-root" *ngFor="let category of projectCategories | slice : 6 : 11">
+                                                  <a
+                                                       [routerLink]="['/projects']"
+                                                       [queryParams]="{ category: category._id }"
+                                                       (click)="closeAll()"
+                                                       class="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-50">
+                                                       <svg
+                                                            class="h-6 w-6 flex-shrink-0 text-gray-400"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                            aria-hidden="true">
+                                                            <path
+                                                                 stroke-linecap="round"
+                                                                 stroke-linejoin="round"
+                                                                 d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                                       </svg>
+                                                       <span class="ml-4">{{ category.title[activeLang] | titlecase }}</span>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </div>
+                              </nav>
+                              <div class="bg-gray-50 px-4 py-8 sm:px-6 sm:py-12 lg:px-8 xl:pl-12">
+                                   <div>
+                                        <h3 class="text-base font-medium text-gray-500" *transloco="let t">{{ t("latestProjects") }}</h3>
+                                        <ul role="list" class="mt-6 space-y-6">
+                                             <li class="flow-root" *ngFor="let project of projects | slice : 0 : 2">
+                                                  <a
+                                                       [routerLink]="['/projects', project._id]"
+                                                       (click)="closeAll()"
+                                                       class="-m-3 flex rounded-lg p-3 hover:bg-gray-100">
+                                                       <div class="hidden flex-shrink-0 sm:block">
+                                                            <img
+                                                                 *ngIf="project.image"
+                                                                 class="h-20 w-32 rounded-md object-cover"
+                                                                 src="{{ project.image.url }}" />
+                                                       </div>
+                                                       <div class="w-0 flex-1 sm:ml-8">
+                                                            <h4 class="truncate text-base font-medium text-gray-900">
+                                                                 {{ project.title[activeLang] }}
+                                                            </h4>
+                                                            <p class="mt-1 text-sm text-gray-500 line-clamp-3">
+                                                                 {{ project.shortDescription[activeLang] }}
+                                                            </p>
+                                                       </div>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </div>
+                                   <div class="mt-6 text-sm font-medium" *transloco="let t">
+                                        <a [routerLink]="['/projects']" (click)="closeAll()" class="text-indigo-600 hover:text-indigo-500">
+                                             {{ t("viewAllProjects") }}
+                                             <span aria-hidden="true"> &rarr;</span>
+                                        </a>
+                                   </div>
+                                   <div class="mt-6 border-t" *transloco="let t">
+                                        <h3 class="text-base font-medium text-gray-500 mt-10">{{ t("governmentAgencies") }}</h3>
+                                        <div class="mt-6 text-sm font-medium">
+                                             <a
+                                                  [routerLink]="['/technocities']"
+                                                  (click)="closeAll()"
+                                                  class="text-indigo-600 hover:text-indigo-500 mr-20">
+                                                  {{ t("technocities") }}
+                                             </a>
+                                             <a [routerLink]="['/organizations']" (click)="closeAll()" class="text-indigo-600 hover:text-indigo-500">
+                                                  {{ t("organizations") }}
+                                             </a>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               <div class="relative h-8" id="tenders">
+                    <a
+                         (click)="showTenders()"
+                         *transloco="let t"
+                         class="text-gray-500 group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer">
+                         {{ t("tenders") }}
+                         <mat-icon
+                              class="icon-size-5"
+                              [svgIcon]="isShowMoreOpened1 ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
+                    </a>
+                    <div
+                         class="absolute -z-99999 mt-3 w-screen max-w-320 transform lg:ml-0 lg:-translate-x-1/2 transition ease-out duration-200 opacity-0 -translate-y-1"
+                         style="left: 100%"
+                         [ngClass]="{
+                              'pointer-events-auto opacity-100 translate-y-0 transition ease-in duration-150 z-99999': isShowMoreOpened1
+                         }">
+                         <div class="absolute inset-0 flex">
+                              <div class="w-1/2 bg-white"></div>
+                              <div class="w-1/2 bg-gray-50"></div>
+                         </div>
+                         <div class="relative mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2">
+                              <nav class="grid gap-y-10 bg-white px-4 py-8 sm:grid-cols-2 sm:gap-x-8 sm:px-6 sm:py-12 lg:px-8 xl:pr-12">
+                                   <div>
+                                        <ul role="list" class="mt-5 space-y-6">
+                                             <li class="flow-root" *ngFor="let category of tenderCategories | slice : 0 : 5">
+                                                  <a
+                                                       [routerLink]="['/tenders']"
+                                                       [queryParams]="{ category: category._id }"
+                                                       (click)="closeAll()"
+                                                       class="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-50">
+                                                       <svg
+                                                            class="h-6 w-6 flex-shrink-0 text-gray-400"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                            aria-hidden="true">
+                                                            <path
+                                                                 stroke-linecap="round"
+                                                                 stroke-linejoin="round"
+                                                                 d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                                       </svg>
+                                                       <span class="ml-4">{{ category.title[activeLang] | titlecase }}</span>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </div>
+                                   <div>
+                                        <ul role="list" class="mt-5 space-y-6">
+                                             <li class="flow-root" *ngFor="let category of tenderCategories | slice : 6 : 11">
+                                                  <a
+                                                       [routerLink]="['/tenders']"
+                                                       [queryParams]="{ category: category._id }"
+                                                       (click)="closeAll()"
+                                                       class="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-50">
+                                                       <svg
+                                                            class="h-6 w-6 flex-shrink-0 text-gray-400"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                            aria-hidden="true">
+                                                            <path
+                                                                 stroke-linecap="round"
+                                                                 stroke-linejoin="round"
+                                                                 d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                                       </svg>
+                                                       <span class="ml-4">{{ category.title[activeLang] | titlecase }}</span>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </div>
+                              </nav>
+                              <div class="bg-gray-50 px-4 py-8 sm:px-6 sm:py-12 lg:px-8 xl:pl-12">
+                                   <div>
+                                        <h3 class="text-base font-medium text-gray-500" *transloco="let t">{{ t("latestTenders") }}</h3>
+                                        <ul role="list" class="mt-6 space-y-6">
+                                             <li class="flow-root" *ngFor="let tender of tenders | slice : 0 : 2">
+                                                  <a
+                                                       [routerLink]="['/tenders', tender._id]"
+                                                       (click)="closeAll()"
+                                                       class="-m-3 flex rounded-lg p-3 hover:bg-gray-100">
+                                                       <div class="hidden flex-shrink-0 sm:block">
+                                                            <img
+                                                                 *ngIf="tender.image"
+                                                                 class="h-20 w-32 rounded-md object-cover"
+                                                                 src="{{ tender.image.url }}" />
+                                                       </div>
+                                                       <div class="w-0 flex-1 sm:ml-8">
+                                                            <h4 class="truncate text-base font-medium text-gray-900">
+                                                                 {{ tender.title[activeLang] }}
+                                                            </h4>
+                                                            <p class="mt-1 text-sm text-gray-500 line-clamp-3">
+                                                                 {{ tender.shortDescription[activeLang] }}
+                                                            </p>
+                                                       </div>
+                                                  </a>
+                                             </li>
+                                        </ul>
+                                   </div>
+                                   <div class="mt-6 text-sm font-medium">
+                                        <a
+                                             *transloco="let t"
+                                             [routerLink]="['/tenders']"
+                                             (click)="closeAll()"
+                                             class="text-indigo-600 hover:text-indigo-500">
+                                             {{ t("viewAllTenders") }}
+                                             <span aria-hidden="true"> &rarr;</span>
+                                        </a>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               <a routerLink="/jobs" *transloco="let t" class="text-base font-medium text-gray-500 hover:text-gray-900">{{ t("jobs") }} </a>
+               <a routerLink="/cvs" *transloco="let t" class="text-base font-medium text-gray-500 hover:text-gray-900">{{ t("cvs") }} </a>
+               <div class="relative h-8" id="blogs">
+                    <a
+                         *transloco="let t"
+                         (click)="showBlogs()"
+                         class="text-gray-500 group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer">
+                         {{ t("blogs") }}
+                         <mat-icon
+                              class="icon-size-5"
+                              [svgIcon]="isShowMoreOpened ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
+                    </a>
+                    <div
+                         class="absolute -z-99999 -ml-4 mt-3 w-screen max-w-md transform lg:left-1/2 lg:ml-0 lg:max-w-2xl lg:-translate-x-1/2 transition ease-out duration-200 opacity-0 -translate-y-1"
+                         [ngClass]="{
+                              'pointer-events-auto opacity-100 translate-y-0 transition ease-in duration-150 z-99999': isShowMoreOpened
+                         }">
+                         <div class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                              <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-2">
+                                   <a
+                                        *ngFor="let blog of blogs | slice : 0 : 6"
+                                        [routerLink]="['/blog', blog._id]"
+                                        (click)="closeAll()"
+                                        class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50">
+                                        <img *ngIf="blog.image" class="flex h-12 w-12 rounded-md" [src]="blog.image.url" alt="" />
+                                        <div
+                                             *ngIf="!blog.image"
+                                             class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-indigo-500 text-white sm:h-12 sm:w-12">
+                                             <svg
+                                                  class="h-6 w-6"
+                                                  fill="none"
+                                                  viewBox="0 0 24 24"
+                                                  stroke-width="1.5"
+                                                  stroke="currentColor"
+                                                  aria-hidden="true">
+                                                  <path
+                                                       stroke-linecap="round"
+                                                       stroke-linejoin="round"
+                                                       d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                                             </svg>
+                                        </div>
+                                        <div class="ml-4">
+                                             <p class="text-base font-medium text-gray-900 line-clamp-2">{{ blog.title[activeLang] | titlecase }}</p>
+                                             <p class="mt-1 text-sm text-gray-500 line-clamp-2">
+                                                  {{ blog.shortDescription[activeLang] }}
+                                             </p>
+                                        </div>
+                                   </a>
+                              </div>
+                              <div class="bg-gray-50 p-5 sm:p-8" *transloco="let t">
+                                   <a [routerLink]="['/blog']" (click)="closeAll()" class="-m-3 flow-root rounded-md p-3 hover:bg-gray-100">
+                                        <div class="flex items-center">
+                                             <div class="text-base font-medium text-gray-900">{{ t("allPostedBlogs") }}</div>
+                                             <span
+                                                  class="ml-3 inline-flex items-center rounded-full bg-indigo-100 px-3 py-0.5 text-xs font-medium leading-5 text-indigo-800">
+                                                  ALL {{ t("all") }}
+                                             </span>
+                                        </div>
+                                        <p class="mt-1 text-sm text-gray-500">{{ t("blogTitleHeader") }}</p>
+                                   </a>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+               <a routerLink="/contact" *transloco="let t" class="text-base font-medium text-gray-500 hover:text-gray-900">{{ t("contactUs") }}</a>
+          </nav>
+          <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
+               <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
+                    <ng-container *ngIf="!user">
+                         <button routerLink="/login" *transloco="let t" class="mr-2" mat-button [color]="'primary'">{{ t("signIn") }}</button>
+                         <button routerLink="/sign-up" *transloco="let t" mat-flat-button [color]="'primary'">{{ t("signUp") }}</button>
+                    </ng-container>
+                    <ng-container *ngIf="user">
+                         <button mat-icon-button [matMenuTriggerFor]="userActions">
+                              <span class="relative">
+                                   <mat-icon svgIcon="heroicons_outline:user-circle"></mat-icon>
+                              </span>
+                         </button>
+                         <mat-menu class="w-60" [xPosition]="'before'" #userActions="matMenu">
+                              <button mat-menu-item>
+                                   <span class="flex flex-col leading-5 text-sm">
+                                        <span *transloco="let t">
+                                             {{ t("signedInAs") }}
+                                             <span class="mt-1.5 text-md font-medium">{{ user.username }}</span>
+                                        </span>
+                                   </span>
+                              </button>
+                              <mat-divider class="my-2"></mat-divider>
+                              <button mat-menu-item (click)="profile()">
+                                   <mat-icon>account_circle</mat-icon>
+                                   <span *transloco="let t" class="text-sm"> {{ t("profile") }} </span>
+                              </button>
+                              <mat-divider class="my-2"></mat-divider>
+                              <button mat-menu-item (click)="signOut()">
+                                   <mat-icon>keyboard_backspace</mat-icon>
+                                   <span *transloco="let t" class="text-sm"> {{ t("signOut") }} </span>
+                              </button>
+                         </mat-menu>
+                    </ng-container>
+               </div>
+          </div>
+     </div>
+
+     <div *ngIf="isDropdownOpen" class="lg:hidden" role="dialog" aria-modal="true">
+          <div class="fixed inset-0 z-50"></div>
+          <div class="bg-black fixed inset-y-0 right-0 z-50 w-full overflow-y-auto px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+               <div class="flex lg:flex-1 justify-between">
+                    <a routerLink="/home" (click)="toggleDropdown()" class="-m-1.5 p-1.5">
+                         <span class="sr-only">ililihale</span>
+                         <img class="h-8 w-auto" src="../../../assets/ass/logo/Asset 2da.svg" alt="" />
+                    </a>
+                    <div class="flex justify-between">
+                         <ng-container *ngIf="user">
+                              <button mat-icon-button class="text-white w-14" [matMenuTriggerFor]="userActions">
+                                   <span class="relative">
+                                        <mat-icon svgIcon="heroicons_outline:user-circle"></mat-icon>
+                                   </span>
+                              </button>
+                              <mat-menu class="w-60" [xPosition]="'before'" #userActions="matMenu">
+                                   <button mat-menu-item>
+                                        <span class="flex flex-col leading-5 text-sm">
+                                             <span>
+                                                  {{ t("signedInAs") }}
+                                                  <span class="mt-1.5 text-md font-medium">{{ user.username }}</span>
+                                             </span>
+                                        </span>
+                                   </button>
+                                   <mat-divider class="my-2"></mat-divider>
+                                   <button mat-menu-item (click)="profile(); toggleDropdown()">
+                                        <mat-icon>account_circle</mat-icon>
+                                        <span class="text-sm"> {{ t("profile") }} </span>
+                                   </button>
+                                   <mat-divider class="my-2"></mat-divider>
+                                   <button mat-menu-item (click)="signOut()">
+                                        <mat-icon>keyboard_backspace</mat-icon>
+                                        <span class="text-sm"> {{ t("signOut") }} </span>
+                                   </button>
+                              </mat-menu>
+                         </ng-container>
+                         <ng-container *ngIf="!user">
+                              <button routerLink="/login" (click)="toggleDropdown()" class="text-white w-20" mat-button>{{ t("signIn") }}</button>
+                         </ng-container>
+                         <button (click)="toggleDropdown()" type="button" class="-m-2.5 rounded-md p-3 w-12 text-gray-700">
+                              <span class="sr-only">Close menu</span>
+                              <svg
+                                   class="h-6 w-6 text-white"
+                                   fill="none"
+                                   viewBox="0 0 24 24"
+                                   stroke-width="1.5"
+                                   stroke="currentColor"
+                                   aria-hidden="true">
+                                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                         </button>
+                    </div>
+               </div>
+               <div class="mt-6 flow-root">
+                    <div class="-my-6 divide-y divide-gray-500/10">
+                         <div class="space-y-2 py-6">
+                              <a
+                                   routerLink="/about"
+                                   (click)="toggleDropdown()"
+                                   class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:text-green-500 hover:bg-gray-50">
+                                   {{ t("aboutUs") }}
+                              </a>
+                              <a
+                                   routerLink="/projects"
+                                   (click)="toggleDropdown()"
+                                   class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:text-green-500 hover:bg-gray-50">
+                                   {{ t("projectsGrantsFunds") }}
+                              </a>
+                              <a
+                                   routerLink="/tenders"
+                                   (click)="toggleDropdown()"
+                                   class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:text-green-500 hover:bg-gray-50">
+                                   {{ t("tenders") }}
+                              </a>
+                              <a
+                                   routerLink="/jobs"
+                                   (click)="toggleDropdown()"
+                                   class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:text-green-500 hover:bg-gray-50">
+                                   {{ t("jobs") }}
+                              </a>
+                              <a
+                                   *ngIf="user"
+                                   routerLink="/cvs"
+                                   (click)="toggleDropdown()"
+                                   class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:text-green-500 hover:bg-gray-50">
+                                   {{ t("cvs") }}
+                              </a>
+                              <a
+                                   routerLink="/blog"
+                                   (click)="toggleDropdown()"
+                                   class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:text-green-500 hover:bg-gray-50">
+                                   {{ t("blogs") }}
+                              </a>
+                              <a
+                                   routerLink="/contact"
+                                   (click)="toggleDropdown()"
+                                   class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:text-green-500 hover:bg-gray-50">
+                                   {{ t("contactUs") }}
+                              </a>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+
+<ng-template let-lang #flagImage>
+     <span class="relative w-6 shadow rounded-sm overflow-hidden">
+          <span class="absolute inset-0 ring-1 ring-inset ring-black ring-opacity-10"></span>
+          <img class="w-full" [src]="'assets/images/flags/' + flagCodes[lang].toUpperCase() + '.svg'" [alt]="'Flag image for ' + lang" />
+     </span>
+</ng-template>
