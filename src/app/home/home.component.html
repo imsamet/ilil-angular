@@ -9,8 +9,9 @@
           class="mx-auto max-w-7xl px-6 text-center justify-items-center h-full grid object-center content-center justify-center items-center lg:px-8">
           <img src="../../assets/ass/images/ilil.png" class="w-16 opacity-60 hover:opacity-95 duration-700 text-center items-center" />
           <h1 class="mt-4 text-3xl z-50 font-bold tracking-tight text-white uppercase sm:text-5xl">
-               The <span class="text-zinc-400 hover:text-green-600 cursor-cell duration-700">future</span> is already here<span class="text-green-600"
-                    >.</span
+               {{t("homeSloganStep1")}}
+               <span class="text-zinc-400 hover:text-green-600 cursor-cell duration-700">{{t("homeSloganStep2")}}</span> 
+               {{t("homeSloganStep3")}}<span class="text-green-600">.</span
                >
           </h1>
           <p class="mt-4 text-base z-50 text-white/70 sm:mt-6">{{ t("homeTitle") }}</p>
@@ -285,12 +286,12 @@
                <dl
                     class="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-zinc-50 shadow-2xl md:grid-cols-3 md:divide-x md:divide-y-0">
                     <div class="px-4 py-5 sm:p-6">
-                         <dt class="text-base font-normal text-gray-900">NGO</dt>
+                         <dt class="text-base font-normal text-gray-900">{{t("ngo")}}</dt>
                          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                               <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
                                    <h1 [countUp]="500" [options]="{ enableScrollSpy: true }">0</h1>
                                    +
-                                   <span class="ml-2 text-sm font-medium text-gray-500">Now 102</span>
+                                   <span class="ml-2 text-sm font-medium text-gray-500">{{t("now")}} 102</span>
                               </div>
 
                               <div
@@ -317,7 +318,7 @@
                               <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
                                    <h1 [countUp]="100" [options]="{ enableScrollSpy: true }">0</h1>
                                    K
-                                   <span class="ml-2 text-sm font-medium text-gray-500">{{ t("now10") }}</span>
+                                   <span class="ml-2 text-sm font-medium text-gray-500">{{ t("now") }} 10K</span>
                               </div>
 
                               <div
@@ -342,7 +343,7 @@
                          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
                               <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
                                    <h1 [countUp]="1600" [options]="{ enableScrollSpy: true }">0</h1>
-                                   <span class="ml-2 text-sm font-medium text-gray-500">{{ t("now200") }}</span>
+                                   <span class="ml-2 text-sm font-medium text-gray-500">{{ t("now") }} 200</span>
                               </div>
                               <div
                                    class="inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">

@@ -147,9 +147,8 @@
     "latestTenders": "Son İhaleler",
     "increasedBy": "Artış oranı",
     "trafic": "Trafik",
-    "now10": "Şimdi 10K",
     "supplier": "Tedarikçi",
-    "now200": "Şimdi 200",
+    "now": "Şimdi",
     "lastPostedBlogs": "Son Yazılan Bloglar",
     "noResults": "Sonuç bulunamadı!",
     "jobInformation": "İş Bilgisi",
@@ -206,7 +205,7 @@
     "signUp": "Kayıt Ol",
     "projectsGrantsFunds": "Projeler, Hibeler ve Fonlar",
     "viewAllProjects": "Tüm projeleri görüntüle",
-    "governmentAgencies": "Hükümet Ajansları",
+    "governmentAgencies": "Resmi Kurumlar",
     "technocities": "Teknokentler",
     "organizations": "Organizasyonlar",
     "viewAllTenders": "Tüm ihaleleri görüntüle",
@@ -246,5 +245,9 @@
     "searchByName": "İsme göre ara",
     "loginToSeeFiles": "Ekli dosyaları görmek için giriş yapmalısınız!",
     "technocityInformation": "Teknokent Bilgileri",
-    "otherLanguages": "Başka Diller Ekle"
+    "otherLanguages": "Başka Diller Ekle",
+    "homeSloganStep1": "Gelecek ",
+    "homeSloganStep2": "zaten",
+    "homeSloganStep3": " burada",
+    "clearFilter": "Filtreleri Temizle"
 }

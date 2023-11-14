@@ -52,16 +52,26 @@
                                                   d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                                         </svg>
                                    </button>
-                                   <button mat-button color="primary" class="text-sm ml-2 lg:hidden" (click)="clearFilters()">
-                                        Clear {{ selectedCategoryIds.length == 0 ? "" : selectedCategoryIds.length }} Filters
+                                   <button 
+                                   mat-button 
+                                   color="primary"
+                                   class="text-sm ml-2 lg:hidden"
+                                   [ngClass]="{'opacity-30 pointer-events-none': selectedCategoryIds.length === 0}"
+                                   (click)="clearFilters()">
+                                        {{t('clearFilter')}} {{ selectedCategoryIds.length == 0 ? "" : "("+selectedCategoryIds.length+")" }}
                                    </button>
                                    <div class="hidden lg:block">
                                         <div class="space-y-10 divide-y divide-gray-200">
                                              <fieldset>
                                                   <legend class="block text-sm font-medium text-gray-900">
                                                        {{ t("filterByCategory") }}
-                                                       <button mat-button color="primary" class="text-sm ml-2" (click)="clearFilters()">
-                                                            Clear {{ selectedCategoryIds.length == 0 ? "" : selectedCategoryIds.length }} Filters
+                                                       <button 
+                                                       mat-button 
+                                                       color="primary"
+                                                       class="text-sm ml-2"
+                                                       [ngClass]="{'opacity-30 pointer-events-none': selectedCategoryIds.length === 0}"
+                                                       (click)="clearFilters()">
+                                                            {{t('clearFilter')}} {{ selectedCategoryIds.length == 0 ? "" : "("+selectedCategoryIds.length+")" }}
                                                        </button>
                                                   </legend>
                                                   <div class="space-y-3 pt-6">

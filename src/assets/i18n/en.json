@@ -148,9 +148,8 @@
     "latestTenders": "Latest Tenders",
     "increasedBy": "Increased by",
     "trafic": "Trafic",
-    "now10": "Now 10K",
     "supplier": "Supplier",
-    "now200": "Now 200",
+    "now": "Now",
     "lastPostedBlogs": "Last posted blogs",
     "noResults": "No results found!",
     "jobInformation": "Job Information",
@@ -247,7 +246,11 @@
     "searchByName": "Search by the name",
     "loginToSeeFiles": "You have to log in to see the attached files!",
     "technocityInformation": "Technocity Information",
-    "otherLanguages": "Add other Languages"
+    "otherLanguages": "Add other Languages",
+    "homeSloganStep1": "The ",
+    "homeSloganStep2": "future",
+    "homeSloganStep3": " is already here",
+    "clearFilter": "Clear Filters"
 }
 
 
