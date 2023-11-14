@@ -5,6 +5,7 @@ import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { baseURL } from 'app/shared/baseUrl';
 import { Router } from '@angular/router';
+import { LocalstorageService } from 'app/services/localstorage.service';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,7 @@ export class AuthService {
         private _httpClient: HttpClient,
         private _userService: UserService,
         private _router: Router,
+        private _localstorageService: LocalstorageService
     ) {
     }
 
@@ -29,11 +31,11 @@ export class AuthService {
      * Setter & getter for access token
      */
     set accessToken(token: string) {
-        localStorage.setItem('accessToken', token);
+        this._localstorageService.setItem('accessToken', token);
     }
 
     get accessToken(): string {
-        return localStorage.getItem('accessToken') ?? '';
+        return this._localstorageService.getItem('accessToken') ?? '';
     }
 
 
@@ -129,7 +131,7 @@ export class AuthService {
      * Sign out
      */
     signOut(): Observable<any> {
-        localStorage.removeItem('accessToken');
+        this._localstorageService.removeItem('accessToken');
         window.location.reload();
         this._authenticated = false;
         return of(true);

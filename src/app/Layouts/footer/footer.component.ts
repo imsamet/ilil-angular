@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { register } from 'swiper/element/bundle';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: "app-footer",
@@ -10,6 +11,10 @@ export class FooterComponent implements OnInit, AfterViewInit {
 
     imagePaths: any[] = [];
     date = new Date();
+
+    constructor(@Inject(DOCUMENT) private document: Document) {
+
+    }
 
     ngOnInit(): void {
         this.imagePaths = [
@@ -62,7 +67,7 @@ export class FooterComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         register();
-        const swiperEl = document.querySelector('swiper-container');
+        const swiperEl = this.document.querySelector('swiper-container');
         const swiperParams = {
             slidesPerView: 1,
             breakpoints: {
@@ -93,8 +98,10 @@ export class FooterComponent implements OnInit, AfterViewInit {
                 },
             },
         };
-        Object.assign(swiperEl, swiperParams);
-        swiperEl.initialize();
+        if (swiperEl) {
+            Object.assign(swiperEl, swiperParams);
+            swiperEl.initialize();
+        }
     }
 
 }

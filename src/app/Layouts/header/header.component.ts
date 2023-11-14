@@ -1,15 +1,17 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, Inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { AvailableLangs, TranslocoService } from "@ngneat/transloco";
 import { AuthService } from "app/core/auth/auth.service";
 import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { ApiService } from "app/services/api.service";
+import { LocalstorageService } from "app/services/localstorage.service";
 import { ProjectService } from "app/services/project.service";
 import { TenderService } from "app/services/tender.service";
 import { Project } from "app/types/project.types";
 import { Tender } from "app/types/tender.types";
 import { Subject, takeUntil } from "rxjs";
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: "app-header",
@@ -49,14 +51,16 @@ export class HeaderComponent implements OnInit {
     private _apiService: ApiService,
     private _projectService: ProjectService,
     private _tenderService: TenderService,
-    private _translocoService: TranslocoService
+    private _translocoService: TranslocoService,
+    private _localstorageService: LocalstorageService,
+    @Inject(DOCUMENT) private document: Document
   ) { }
 
   ngOnInit(): void {
 
-    const projects = document.querySelector("#projects");
-    const tenders = document.querySelector("#tenders");
-    const blogs = document.querySelector("#blogs");
+    const projects = this.document.querySelector("#projects");
+    const tenders = this.document.querySelector("#tenders");
+    const blogs = this.document.querySelector("#blogs");
 
     this.availableLangs = this._translocoService.getAvailableLangs();
     this._translocoService.langChanges$.subscribe((activeLang) => {
@@ -146,7 +150,7 @@ export class HeaderComponent implements OnInit {
 
   setActiveLang(lang: string): void {
     this._translocoService.setActiveLang(lang);
-    localStorage.setItem('language', lang);
+    this._localstorageService.setItem('language', lang);
   }
 
   getProjects() {

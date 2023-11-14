@@ -3,7 +3,7 @@
           <div class="flex flex-row overflow-y-hidden w-full items-center scrollbar-hide">
                <swiper-container init="false">
                     <swiper-slide *ngFor="let imagePath of imagePaths">
-                         <a class="w-full" [href]="imagePath.link" target="_blank">
+                         <a class="w-full" target="_blank">
                               <img src="../../../assets/partners/{{ imagePath.name }}" class="w-full h-15 object-contain" />
                          </a>
                     </swiper-slide>

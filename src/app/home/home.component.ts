@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, AfterViewInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit, OnDestroy, Inject } from "@angular/core";
 import { ProjectService } from "app/services/project.service";
 import { Project } from "app/types/project.types";
 import { Subject, takeUntil } from "rxjs";
@@ -8,6 +8,7 @@ import { Tender } from "app/types/tender.types";
 import { ApiService } from "app/services/api.service";
 import { register } from 'swiper/element/bundle';
 import { TranslocoService } from "@ngneat/transloco";
+import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: "app-home",
@@ -28,7 +29,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         private _tenderService: TenderService,
         private _apiServecies: ApiService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _translocoService: TranslocoService
+        private _translocoService: TranslocoService,
+        @Inject(DOCUMENT) private document: Document
     ) { }
 
     ngOnInit(): void {
@@ -182,7 +184,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngAfterViewInit(): void {
         register();
-        const swiperEl = document.querySelector('swiper-container');
+        const swiperEl = this.document.querySelector('swiper-container');
         const swiperParams = {
             breakpoints: {
                 320: {
@@ -217,13 +219,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                 },
             },
         };
-        Object.assign(swiperEl, swiperParams);
-        swiperEl.initialize();
+        if (swiperEl) {
+            Object.assign(swiperEl, swiperParams);
+            swiperEl.initialize();
+        }
     }
 
     ngOnDestroy(): void {
-        const swiperEl = document.querySelector('swiper-container');
-        swiperEl.remove();
+        const swiperEl = this.document.querySelector('swiper-container');
+        if (swiperEl) {
+            swiperEl.remove();
+        }
     }
 
 }

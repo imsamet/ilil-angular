@@ -77,7 +77,8 @@ const routes: Routes = [
 ];
 
 const routerConfig: ExtraOptions = {
-  scrollPositionRestoration: 'top'
+  scrollPositionRestoration: 'top',
+  initialNavigation: 'enabledBlocking'
 };
 
 @NgModule({
